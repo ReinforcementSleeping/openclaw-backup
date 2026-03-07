@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+._*
+
+# 临时文件
+*.tmp
+*.log
+*.swp
+
+# 运行环境
+cron/
+delivery-queue/
+logs/
+subagents/
+
+# 备份文件
+*.bak
+*副本*
+
+# 密钥（不要提交到 Git）
+exec-approvals.json
