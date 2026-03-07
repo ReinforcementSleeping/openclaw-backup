@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.2.25",
+    "lastTouchedAt": "2026-03-04T13:29:07.737Z"
+  },
+  "env": {
+    "shellEnv": {
+      "enabled": true
+    },
+    "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA"
+  },
+  "browser": {
+    "enabled": true,
+    "defaultProfile": "openclaw"
+  },
+  "models": {
+    "providers": {
+      "minimax-portal": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "apiKey": "MINIMAX_CN_API_KEY",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "MiniMax-M2.5",
+            "name": "MiniMax-M2.5"
+          }
+        ]
+      },
+      "minimax-portal-cn": {
+        "baseUrl": "https://api.minimaxi.com/anthropic",
+        "apiKey": "MINIMAX_CN_API_KEY",
+        "api": "anthropic-messages",
+        "models": [
+          {
+            "id": "minimax-portal/MiniMax-M2.5",
+            "name": "minimax-portal/MiniMax-M2.5"
+          }
+        ]
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "minimax-portal/MiniMax-M2.5"
+      }
+    },
+    "list": [
+      {
+        "id": "main"
+      },
+      {
+        "id": "xiangyu",
+        "name": "xiangyu",
+        "workspace": "/Users/lynch/.openclaw/workspace-xiangyu",
+        "agentDir": "/Users/lynch/.openclaw/agents/xiangyu/agent",
+        "identity": {
+          "name": "翔宇",
+          "emoji": "🤵"
+        }
+      },
+      {
+        "id": "yuantiangang",
+        "name": "yuantiangang",
+        "workspace": "/Users/lynch/.openclaw/workspace-yuantiangang",
+        "agentDir": "/Users/lynch/.openclaw/agents/yuantiangang/agent",
+        "identity": {
+          "name": "袁天罡",
+          "emoji": "🔮"
+        }
+      },
+      {
+        "id": "anu",
+        "name": "anu",
+        "workspace": "/Users/lynch/.openclaw/workspace-anu",
+        "agentDir": "/Users/lynch/.openclaw/agents/anu/agent",
+        "identity": {
+          "name": "阿诺",
+          "emoji": "💪"
+        }
+      },
+      {
+        "id": "huatuo",
+        "name": "huatuo",
+        "workspace": "/Users/lynch/.openclaw/workspace-huatuo",
+        "agentDir": "/Users/lynch/.openclaw/agents/huatuo/agent",
+        "identity": {
+          "name": "华佗",
+          "emoji": "🌿"
+        }
+      },
+      {
+        "id": "mrbeast",
+        "name": "mrbeast",
+        "workspace": "/Users/lynch/.openclaw/workspace-mrbeast",
+        "agentDir": "/Users/lynch/.openclaw/agents/mrbeast/agent"
+      }
+    ]
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "channels": {
+    "feishu": {
+      "appId": "cli_a92fbdeb3f3adcd4",
+      "appSecret": "AwkfI3FVcBthDcPPbX3Yvch1oyxo8bGF",
+      "dmPolicy": "open",
+      "allowFrom": [
+        "*"
+      ],
+      "enabled": true
+    }
+  },
+  "gateway": {
+    "mode": "local",
+    "auth": {
+      "mode": "token",
+      "token": "clawx-41d0c05819f8ac658ca4c5ab2d6fadb3"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "minimax-portal-auth": {
+        "enabled": true
+      },
+      "feishu": {
+        "enabled": true
+      }
+    }
+  }
+}

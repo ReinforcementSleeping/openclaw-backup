@@ -1,0 +1,33 @@
+{
+   "action": {
+      "default_icon": {
+         "128": "icon121.png",
+         "16": "icon16.png",
+         "32": "icon32.png",
+         "48": "icon121.png"
+      },
+      "default_title": "OpenClaw Browser Relay (click to attach/detach)"
+   },
+   "background": {
+      "service_worker": "background.js",
+      "type": "module"
+   },
+   "description": "Powered by PAIO. Attach OpenClaw to your existing Chrome tab via a local CDP relay server.",
+   "host_permissions": [ "http://127.0.0.1/*", "http://localhost/*" ],
+   "icons": {
+      "128": "icon121.png",
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon121.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuHn0gl1/UBrIgpH5ctaZQ8gB5/x6axxGC8/tQUZ7j6hkF5beW9K0UcFMrzvQUQWQYufpHO8fLJiNfK5+AP1sBVT2FkmrOypx600lXrpxeNpmKB22Ays124knXb7KErH/W8jK7+vf287sI+A08o75PbxrFkkNtQ9LBuJfLttdVJ/00zREkFuKOqe1vij4oxk3kuv9Nh4qdBZh7oyI7OSWJGVf2eZDiErCKn4bTBcVe6jZMUyas+nno2Um/PZNrzUv9uZbA89k+HqFYhFU77t5NPkrV643C6sT5kEU/dNHiUukPc5Zh25iHjmuxLXolDMvl6Kr//+s1V1bVfMJZluCvQIDAQAB",
+   "manifest_version": 3,
+   "name": "OpenClaw Browser Relay for Chrome",
+   "options_ui": {
+      "open_in_tab": true,
+      "page": "options.html"
+   },
+   "permissions": [ "debugger", "activeTab", "storage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.0"
+}

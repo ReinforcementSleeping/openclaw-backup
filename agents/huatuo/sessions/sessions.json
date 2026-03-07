@@ -1,0 +1,700 @@
+{
+  "agent:huatuo:main": {
+    "sessionId": "8b3c5d1f-3f65-4707-864e-0aefd1a46ed2",
+    "updatedAt": 1772682548332,
+    "systemSent": true,
+    "abortedLastRun": false,
+    "chatType": "direct",
+    "deliveryContext": {
+      "channel": "feishu",
+      "to": "user:ou_a2e42d86a28453b690d9d70042fe6f0b",
+      "accountId": "huatuo"
+    },
+    "lastChannel": "feishu",
+    "lastTo": "user:ou_a2e42d86a28453b690d9d70042fe6f0b",
+    "lastAccountId": "huatuo",
+    "origin": {
+      "label": "用户545942",
+      "provider": "feishu",
+      "surface": "feishu",
+      "chatType": "direct",
+      "from": "feishu:ou_a2e42d86a28453b690d9d70042fe6f0b",
+      "to": "user:ou_a2e42d86a28453b690d9d70042fe6f0b",
+      "accountId": "huatuo"
+    },
+    "sessionFile": "/Users/lynch/.openclaw/agents/huatuo/sessions/8b3c5d1f-3f65-4707-864e-0aefd1a46ed2.jsonl",
+    "compactionCount": 0,
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>gog</name>\n    <description>Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "gog",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "gog",
+          "description": "Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "authProfileOverride": "minimax-portal:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 0,
+    "modelProvider": "minimax-portal",
+    "model": "MiniMax-M2.5",
+    "contextTokens": 200000,
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1772682541360,
+      "sessionId": "8b3c5d1f-3f65-4707-864e-0aefd1a46ed2",
+      "sessionKey": "agent:huatuo:main",
+      "provider": "minimax-portal",
+      "model": "MiniMax-M2.5",
+      "workspaceDir": "/Users/lynch/.openclaw/workspace-huatuo",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 24653,
+        "projectContextChars": 12808,
+        "nonProjectContextChars": 11845
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/AGENTS.md",
+          "missing": false,
+          "rawChars": 8011,
+          "injectedChars": 8011,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/SOUL.md",
+          "missing": false,
+          "rawChars": 253,
+          "injectedChars": 253,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/TOOLS.md",
+          "missing": false,
+          "rawChars": 1474,
+          "injectedChars": 1474,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/IDENTITY.md",
+          "missing": false,
+          "rawChars": 633,
+          "injectedChars": 633,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/USER.md",
+          "missing": false,
+          "rawChars": 217,
+          "injectedChars": 217,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 167,
+          "injectedChars": 167,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 1861,
+        "entries": [
+          {
+            "name": "gog",
+            "blockChars": 244
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 503
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 308
+          },
+          {
+            "name": "weather",
+            "blockChars": 428
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 2176,
+        "schemaChars": 16795,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "browser",
+            "summaryChars": 1251,
+            "schemaChars": 1897,
+            "propertiesCount": 28
+          },
+          {
+            "name": "canvas",
+            "summaryChars": 106,
+            "schemaChars": 661,
+            "propertiesCount": 18
+          },
+          {
+            "name": "nodes",
+            "summaryChars": 101,
+            "schemaChars": 1479,
+            "propertiesCount": 33
+          },
+          {
+            "name": "message",
+            "summaryChars": 89,
+            "schemaChars": 4181,
+            "propertiesCount": 85
+          },
+          {
+            "name": "tts",
+            "summaryChars": 152,
+            "schemaChars": 223,
+            "propertiesCount": 2
+          },
+          {
+            "name": "agents_list",
+            "summaryChars": 72,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 144,
+            "schemaChars": 414,
+            "propertiesCount": 10
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 175,
+            "schemaChars": 895,
+            "propertiesCount": 6
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "feishu_doc",
+            "summaryChars": 116,
+            "schemaChars": 612,
+            "propertiesCount": 6
+          },
+          {
+            "name": "feishu_app_scopes",
+            "summaryChars": 102,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "feishu_wiki",
+            "summaryChars": 83,
+            "schemaChars": 971,
+            "propertiesCount": 10
+          },
+          {
+            "name": "feishu_drive",
+            "summaryChars": 81,
+            "schemaChars": 486,
+            "propertiesCount": 5
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "inputTokens": 36,
+    "outputTokens": 107,
+    "cacheRead": 6658,
+    "cacheWrite": 6074,
+    "totalTokens": 12768,
+    "totalTokensFresh": true
+  },
+  "agent:huatuo:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
+    "sessionId": "84acf000-9fa8-47f1-ba99-1a560d7d00c6",
+    "updatedAt": 1772685557812,
+    "systemSent": true,
+    "abortedLastRun": false,
+    "displayName": "feishu:g-oc_cb25f688202b98fbb8a1d0682cf1246d",
+    "chatType": "group",
+    "channel": "feishu",
+    "groupId": "ou_a2e42d86a28453b690d9d70042fe6f0b",
+    "subject": "oc_cb25f688202b98fbb8a1d0682cf1246d",
+    "deliveryContext": {
+      "channel": "feishu",
+      "to": "chat:oc_cb25f688202b98fbb8a1d0682cf1246d",
+      "accountId": "huatuo"
+    },
+    "lastChannel": "feishu",
+    "lastTo": "chat:oc_cb25f688202b98fbb8a1d0682cf1246d",
+    "lastAccountId": "huatuo",
+    "origin": {
+      "label": "oc_cb25f688202b98fbb8a1d0682cf1246d",
+      "provider": "feishu",
+      "surface": "feishu",
+      "chatType": "group",
+      "from": "feishu:ou_a2e42d86a28453b690d9d70042fe6f0b",
+      "to": "chat:oc_cb25f688202b98fbb8a1d0682cf1246d",
+      "accountId": "huatuo"
+    },
+    "sessionFile": "/Users/lynch/.openclaw/agents/huatuo/sessions/84acf000-9fa8-47f1-ba99-1a560d7d00c6.jsonl",
+    "compactionCount": 0,
+    "skillsSnapshot": {
+      "prompt": "\n\nThe following skills provide specialized instructions for specific tasks.\nUse the read tool to load a skill's file when the task matches its description.\nWhen a skill file references a relative path, resolve it against the skill directory (parent of SKILL.md / dirname of the path) and use that absolute path in tool commands.\n\n<available_skills>\n  <skill>\n    <name>gog</name>\n    <description>Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>healthcheck</name>\n    <description>Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>skill-creator</name>\n    <description>Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator/SKILL.md</location>\n  </skill>\n  <skill>\n    <name>weather</name>\n    <description>Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.</description>\n    <location>/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather/SKILL.md</location>\n  </skill>\n</available_skills>",
+      "skills": [
+        {
+          "name": "gog",
+          "requiredEnv": []
+        },
+        {
+          "name": "healthcheck"
+        },
+        {
+          "name": "skill-creator"
+        },
+        {
+          "name": "weather",
+          "requiredEnv": []
+        }
+      ],
+      "resolvedSkills": [
+        {
+          "name": "gog",
+          "description": "Google Workspace CLI for Gmail, Calendar, Drive, Contacts, Sheets, and Docs.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/gog",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "healthcheck",
+          "description": "Host security hardening and risk-tolerance configuration for OpenClaw deployments. Use when a user asks for security audits, firewall/SSH/update hardening, risk posture, exposure review, OpenClaw cron scheduling for periodic checks, or version status checks on a machine running OpenClaw (laptop, workstation, Pi, VPS).",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/healthcheck",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "skill-creator",
+          "description": "Create or update AgentSkills. Use when designing, structuring, or packaging skills with scripts, references, and assets.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/skill-creator",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        },
+        {
+          "name": "weather",
+          "description": "Get current weather and forecasts via wttr.in or Open-Meteo. Use when: user asks about weather, temperature, or forecasts for any location. NOT for: historical weather data, severe weather alerts, or detailed meteorological analysis. No API key needed.",
+          "filePath": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather/SKILL.md",
+          "baseDir": "/Applications/ClawX.app/Contents/Resources/openclaw/skills/weather",
+          "source": "openclaw-bundled",
+          "disableModelInvocation": false
+        }
+      ],
+      "version": 0
+    },
+    "authProfileOverride": "minimax-portal:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 0,
+    "modelProvider": "minimax-portal",
+    "model": "MiniMax-M2.5",
+    "contextTokens": 200000,
+    "systemPromptReport": {
+      "source": "run",
+      "generatedAt": 1772685553683,
+      "sessionId": "84acf000-9fa8-47f1-ba99-1a560d7d00c6",
+      "sessionKey": "agent:huatuo:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d",
+      "provider": "minimax-portal",
+      "model": "MiniMax-M2.5",
+      "workspaceDir": "/Users/lynch/.openclaw/workspace-huatuo",
+      "bootstrapMaxChars": 20000,
+      "bootstrapTotalMaxChars": 150000,
+      "sandbox": {
+        "mode": "off",
+        "sandboxed": false
+      },
+      "systemPrompt": {
+        "chars": 25378,
+        "projectContextChars": 12875,
+        "nonProjectContextChars": 12503
+      },
+      "injectedWorkspaceFiles": [
+        {
+          "name": "AGENTS.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/AGENTS.md",
+          "missing": false,
+          "rawChars": 8011,
+          "injectedChars": 8011,
+          "truncated": false
+        },
+        {
+          "name": "SOUL.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/SOUL.md",
+          "missing": false,
+          "rawChars": 320,
+          "injectedChars": 320,
+          "truncated": false
+        },
+        {
+          "name": "TOOLS.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/TOOLS.md",
+          "missing": false,
+          "rawChars": 1474,
+          "injectedChars": 1474,
+          "truncated": false
+        },
+        {
+          "name": "IDENTITY.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/IDENTITY.md",
+          "missing": false,
+          "rawChars": 633,
+          "injectedChars": 633,
+          "truncated": false
+        },
+        {
+          "name": "USER.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/USER.md",
+          "missing": false,
+          "rawChars": 217,
+          "injectedChars": 217,
+          "truncated": false
+        },
+        {
+          "name": "HEARTBEAT.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/HEARTBEAT.md",
+          "missing": false,
+          "rawChars": 167,
+          "injectedChars": 167,
+          "truncated": false
+        },
+        {
+          "name": "BOOTSTRAP.md",
+          "path": "/Users/lynch/.openclaw/workspace-huatuo/BOOTSTRAP.md",
+          "missing": false,
+          "rawChars": 1449,
+          "injectedChars": 1449,
+          "truncated": false
+        }
+      ],
+      "skills": {
+        "promptChars": 1861,
+        "entries": [
+          {
+            "name": "gog",
+            "blockChars": 244
+          },
+          {
+            "name": "healthcheck",
+            "blockChars": 503
+          },
+          {
+            "name": "skill-creator",
+            "blockChars": 308
+          },
+          {
+            "name": "weather",
+            "blockChars": 428
+          }
+        ]
+      },
+      "tools": {
+        "listChars": 2176,
+        "schemaChars": 16795,
+        "entries": [
+          {
+            "name": "read",
+            "summaryChars": 298,
+            "schemaChars": 392,
+            "propertiesCount": 4
+          },
+          {
+            "name": "edit",
+            "summaryChars": 129,
+            "schemaChars": 591,
+            "propertiesCount": 6
+          },
+          {
+            "name": "write",
+            "summaryChars": 127,
+            "schemaChars": 313,
+            "propertiesCount": 3
+          },
+          {
+            "name": "exec",
+            "summaryChars": 181,
+            "schemaChars": 1086,
+            "propertiesCount": 12
+          },
+          {
+            "name": "process",
+            "summaryChars": 85,
+            "schemaChars": 961,
+            "propertiesCount": 12
+          },
+          {
+            "name": "browser",
+            "summaryChars": 1251,
+            "schemaChars": 1897,
+            "propertiesCount": 28
+          },
+          {
+            "name": "canvas",
+            "summaryChars": 106,
+            "schemaChars": 661,
+            "propertiesCount": 18
+          },
+          {
+            "name": "nodes",
+            "summaryChars": 101,
+            "schemaChars": 1479,
+            "propertiesCount": 33
+          },
+          {
+            "name": "message",
+            "summaryChars": 89,
+            "schemaChars": 4181,
+            "propertiesCount": 85
+          },
+          {
+            "name": "tts",
+            "summaryChars": 152,
+            "schemaChars": 223,
+            "propertiesCount": 2
+          },
+          {
+            "name": "agents_list",
+            "summaryChars": 72,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "sessions_list",
+            "summaryChars": 54,
+            "schemaChars": 212,
+            "propertiesCount": 4
+          },
+          {
+            "name": "sessions_history",
+            "summaryChars": 36,
+            "schemaChars": 161,
+            "propertiesCount": 3
+          },
+          {
+            "name": "sessions_send",
+            "summaryChars": 84,
+            "schemaChars": 273,
+            "propertiesCount": 5
+          },
+          {
+            "name": "sessions_spawn",
+            "summaryChars": 144,
+            "schemaChars": 414,
+            "propertiesCount": 10
+          },
+          {
+            "name": "subagents",
+            "summaryChars": 105,
+            "schemaChars": 191,
+            "propertiesCount": 4
+          },
+          {
+            "name": "session_status",
+            "summaryChars": 207,
+            "schemaChars": 89,
+            "propertiesCount": 2
+          },
+          {
+            "name": "web_search",
+            "summaryChars": 175,
+            "schemaChars": 895,
+            "propertiesCount": 6
+          },
+          {
+            "name": "web_fetch",
+            "summaryChars": 129,
+            "schemaChars": 374,
+            "propertiesCount": 3
+          },
+          {
+            "name": "feishu_doc",
+            "summaryChars": 116,
+            "schemaChars": 612,
+            "propertiesCount": 6
+          },
+          {
+            "name": "feishu_app_scopes",
+            "summaryChars": 102,
+            "schemaChars": 33,
+            "propertiesCount": 0
+          },
+          {
+            "name": "feishu_wiki",
+            "summaryChars": 83,
+            "schemaChars": 971,
+            "propertiesCount": 10
+          },
+          {
+            "name": "feishu_drive",
+            "summaryChars": 81,
+            "schemaChars": 486,
+            "propertiesCount": 5
+          },
+          {
+            "name": "memory_search",
+            "summaryChars": 334,
+            "schemaChars": 139,
+            "propertiesCount": 3
+          },
+          {
+            "name": "memory_get",
+            "summaryChars": 151,
+            "schemaChars": 128,
+            "propertiesCount": 3
+          }
+        ]
+      }
+    },
+    "inputTokens": 36,
+    "outputTokens": 67,
+    "cacheRead": 6658,
+    "cacheWrite": 6547,
+    "totalTokens": 13241,
+    "totalTokensFresh": true
+  }
+}

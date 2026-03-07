@@ -1,0 +1,14 @@
+2026/03/02-18:33:14.723 3b2667 Reusing MANIFEST /Users/lynch/.openclaw/browser/openclaw/user-data/Default/IndexedDB/https_www.cls.cn_0.indexeddb.leveldb/MANIFEST-000001
+2026/03/02-18:33:14.723 3b2667 Recovering log #10
+2026/03/02-18:33:14.723 3b2667 Reusing old log /Users/lynch/.openclaw/browser/openclaw/user-data/Default/IndexedDB/https_www.cls.cn_0.indexeddb.leveldb/000010.log 
+2026/03/02-18:33:14.723 3b2667 Delete type=2 #8
+2026/03/02-18:33:14.734 3b2667 Level-0 table #15: started
+2026/03/02-18:33:14.735 3b2667 Level-0 table #15: 1074 bytes OK
+2026/03/02-18:33:14.735 3b2667 Delete type=0 #10
+2026/03/02-18:33:14.736 3b2667 Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at '\x00\x04\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 212 : 1
+2026/03/02-18:33:14.736 3b2667 Compacting 1@0 + 1@1 files
+2026/03/02-18:33:14.736 3b2667 Generated table #16@0: 21 keys, 618 bytes
+2026/03/02-18:33:14.736 3b2667 Compacted 1@0 + 1@1 files => 618 bytes
+2026/03/02-18:33:14.737 3b2667 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/03/02-18:33:14.737 3b2667 Delete type=2 #15
+2026/03/02-18:33:14.737 3b2667 Manual compaction at level-0 from '\x00\x04\x00\x00\xc8\x04\x00d\x00a\x00t\x00a' @ 212 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)

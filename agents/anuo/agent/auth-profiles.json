@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "profiles": {
+    "minimax-portal:default": {
+      "type": "api_key",
+      "provider": "minimax-portal",
+      "key": "sk-cp-jAyF3dAqWcIVjrHRYjHayut80Rwh0G5SkJOwa8xkNM75VpneJP_dqInH8mRDUOetHV2P33SGptoHzCQ65RxcznIpYalYyGT522xW3OuDokAmesy-rrGyt18"
+    }
+  },
+  "order": {
+    "minimax-portal": [
+      "minimax-portal:default"
+    ]
+  },
+  "lastGood": {
+    "minimax-portal": "minimax-portal:default"
+  },
+  "usageStats": {
+    "minimax-portal:default": {
+      "lastUsed": 1772685557796,
+      "errorCount": 0,
+      "lastFailureAt": 1772609137557
+    }
+  }
+}
