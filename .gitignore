@@ -7,11 +7,14 @@
 *.log
 *.swp
 
-# 运行环境
+# 运行环境（不备份）
 cron/
 delivery-queue/
 logs/
 subagents/
+
+# 浏览器缓存（不备份）
+browser/
 
 # 备份文件
 *.bak
