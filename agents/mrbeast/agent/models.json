@@ -63,6 +63,17 @@
           "api": "anthropic-messages"
         }
       ]
+    },
+    "custom-customb2": {
+      "baseUrl": "https://api.z.ai/api/coding/paas/v4",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5",
+          "name": "glm-5"
+        }
+      ],
+      "apiKey": "eb80724b52cb4eaab2de5469e666b366.idiS1EGFUOuJnbad"
     }
   }
 }

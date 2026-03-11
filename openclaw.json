@@ -42,13 +42,23 @@
             "name": "minimax-portal/MiniMax-M2.5"
           }
         ]
+      },
+      "custom-customb2": {
+        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5",
+            "name": "glm-5"
+          }
+        ]
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "minimax-portal/MiniMax-M2.5"
+        "primary": "custom-customb2/glm-5"
       }
     },
     "list": [
