@@ -74,6 +74,17 @@
         }
       ],
       "apiKey": "eb80724b52cb4eaab2de5469e666b366.idiS1EGFUOuJnbad"
+    },
+    "custom-custom8d": {
+      "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "glm-5-turbo",
+          "name": "glm-5-turbo"
+        }
+      ],
+      "apiKey": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
     }
   }
 }

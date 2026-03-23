@@ -10,6 +10,11 @@
       "type": "api_key",
       "provider": "custom-customb2",
       "key": "eb80724b52cb4eaab2de5469e666b366.idiS1EGFUOuJnbad"
+    },
+    "custom-custom8d:default": {
+      "type": "api_key",
+      "provider": "custom-custom8d",
+      "key": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
     }
   },
   "order": {
@@ -18,11 +23,15 @@
     ],
     "custom-customb2": [
       "custom-customb2:default"
+    ],
+    "custom-custom8d": [
+      "custom-custom8d:default"
     ]
   },
   "lastGood": {
     "minimax-portal": "minimax-portal:default",
-    "custom-customb2": "custom-customb2:default"
+    "custom-customb2": "custom-customb2:default",
+    "custom-custom8d": "custom-custom8d:default"
   },
   "usageStats": {
     "minimax-portal:default": {

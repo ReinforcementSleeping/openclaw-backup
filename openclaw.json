@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.2.25",
-    "lastTouchedAt": "2026-03-04T14:47:53.869Z"
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-03-23T03:08:58.664Z"
   },
   "env": {
     "shellEnv": {
@@ -52,13 +52,24 @@
             "name": "glm-5"
           }
         ]
+      },
+      "custom-custom8d": {
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5-turbo",
+            "name": "glm-5-turbo"
+          }
+        ]
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "custom-customb2/glm-5"
+        "primary": "custom-custom8d/glm-5-turbo",
+        "fallbacks": []
       }
     },
     "list": [
@@ -124,11 +135,64 @@
       }
     ]
   },
+  "tools": {
+    "profile": "full",
+    "sessions": {
+      "visibility": "all"
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "chairong",
+      "match": {
+        "channel": "feishu",
+        "accountId": "chairong"
+      }
+    },
+    {
+      "agentId": "yuantiangang",
+      "match": {
+        "channel": "feishu",
+        "accountId": "yuantiangang"
+      }
+    },
+    {
+      "agentId": "huatuo",
+      "match": {
+        "channel": "feishu",
+        "accountId": "huatuo"
+      }
+    },
+    {
+      "agentId": "anuo",
+      "match": {
+        "channel": "feishu",
+        "accountId": "anuo"
+      }
+    },
+    {
+      "agentId": "mrbeast",
+      "match": {
+        "channel": "feishu",
+        "accountId": "mrbeast"
+      }
+    },
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "xiangyu"
+      }
+    }
+  ],
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
     "restart": true,
     "ownerDisplay": "raw"
+  },
+  "session": {
+    "idleMinutes": 10080
   },
   "channels": {
     "feishu": {
@@ -168,63 +232,59 @@
       }
     }
   },
-  "bindings": [
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "xiangyu"
-      },
-      "agentId": "xiangyu"
-    },
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "chairong"
-      },
-      "agentId": "chairong"
-    },
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "yuantiangang"
-      },
-      "agentId": "yuantiangang"
-    },
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "huatuo"
-      },
-      "agentId": "huatuo"
-    },
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "anuo"
-      },
-      "agentId": "anuo"
-    },
-    {
-      "match": {
-        "channel": "feishu",
-        "accountId": "mrbeast"
-      },
-      "agentId": "mrbeast"
-    }
-  ],
   "gateway": {
     "mode": "local",
+    "controlUi": {
+      "allowedOrigins": [
+        "file://"
+      ]
+    },
     "auth": {
       "mode": "token",
       "token": "clawx-41d0c05819f8ac658ca4c5ab2d6fadb3"
     }
   },
+  "skills": {
+    "entries": {
+      "pdf": {
+        "enabled": true
+      },
+      "xlsx": {
+        "enabled": true
+      },
+      "docx": {
+        "enabled": true
+      },
+      "pptx": {
+        "enabled": true
+      },
+      "find-skills": {
+        "enabled": true
+      },
+      "self-improving-agent": {
+        "enabled": true
+      },
+      "tavily-search": {
+        "enabled": true
+      },
+      "brave-web-search": {
+        "enabled": true
+      }
+    }
+  },
   "plugins": {
+    "allow": [
+      "minimax-portal-auth",
+      "openclaw-lark"
+    ],
     "entries": {
       "minimax-portal-auth": {
         "enabled": true
       },
       "feishu": {
+        "enabled": false
+      },
+      "openclaw-lark": {
         "enabled": true
       }
     }
