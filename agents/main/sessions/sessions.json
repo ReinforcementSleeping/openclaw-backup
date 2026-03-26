@@ -373,7 +373,7 @@
   },
   "agent:main:main": {
     "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
-    "updatedAt": 1774248266398,
+    "updatedAt": 1774424491934,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -798,7 +798,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1774248201697,
+      "generatedAt": 1774424484318,
       "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
       "sessionKey": "agent:main:main",
       "provider": "custom-custom8d",
@@ -1395,11 +1395,11 @@
       }
     },
     "totalTokensFresh": true,
-    "inputTokens": 11742,
-    "outputTokens": 397,
-    "cacheRead": 41656,
+    "inputTokens": 128,
+    "outputTokens": 75,
+    "cacheRead": 130234,
     "cacheWrite": 0,
-    "totalTokens": 41823,
+    "totalTokens": 130362,
     "authProfileOverride": "custom-custom8d:default",
     "authProfileOverrideSource": "auto",
     "authProfileOverrideCompactionCount": 0

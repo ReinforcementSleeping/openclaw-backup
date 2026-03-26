@@ -1,3 +1,3 @@
-2026/03/11-10:20:00.889 b60e33 Reusing MANIFEST /Users/lynch/.openclaw/browser/openclaw/user-data/Default/Sync Data/LevelDB/MANIFEST-000001
-2026/03/11-10:20:00.900 b60e33 Recovering log #3
-2026/03/11-10:20:00.901 b60e33 Reusing old log /Users/lynch/.openclaw/browser/openclaw/user-data/Default/Sync Data/LevelDB/000003.log 
+2026/03/26-15:34:08.814 6dfa30 Reusing MANIFEST /Users/lynch/.openclaw/browser/openclaw/user-data/Default/Sync Data/LevelDB/MANIFEST-000001
+2026/03/26-15:34:08.824 6dfa30 Recovering log #3
+2026/03/26-15:34:08.824 6dfa30 Reusing old log /Users/lynch/.openclaw/browser/openclaw/user-data/Default/Sync Data/LevelDB/000003.log 
