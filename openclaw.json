@@ -7,7 +7,8 @@
     "shellEnv": {
       "enabled": true
     },
-    "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA"
+    "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA",
+    "TAVILY_API_KEY": "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"
   },
   "wizard": {
     "lastRunAt": "2026-03-04T14:47:53.841Z",
@@ -48,8 +49,8 @@
         "api": "openai-completions",
         "models": [
           {
-            "id": "glm-5",
-            "name": "glm-5"
+            "id": "glm-5-turbo",
+            "name": "glm-5-turbo"
           }
         ]
       },
@@ -68,7 +69,7 @@
   "agents": {
     "defaults": {
       "model": {
-        "primary": "custom-custom8d/glm-5-turbo",
+        "primary": "custom-customb2/glm-5-turbo",
         "fallbacks": []
       }
     },

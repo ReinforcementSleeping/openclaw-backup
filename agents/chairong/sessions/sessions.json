@@ -1,7 +1,7 @@
 {
   "agent:chairong:main": {
     "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
-    "updatedAt": 1774724340419,
+    "updatedAt": 1774789203277,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -411,15 +411,15 @@
       ],
       "version": 0
     },
-    "modelProvider": "custom-custom8d",
+    "modelProvider": "custom-customb2",
     "model": "glm-5-turbo",
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1774724313440,
+      "generatedAt": 1774789186594,
       "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
       "sessionKey": "agent:chairong:main",
-      "provider": "custom-custom8d",
+      "provider": "custom-customb2",
       "model": "glm-5-turbo",
       "workspaceDir": "/Users/lynch/.openclaw/workspace-chairong",
       "bootstrapMaxChars": 20000,
@@ -991,17 +991,17 @@
       }
     },
     "totalTokensFresh": true,
-    "authProfileOverride": "custom-custom8d:default",
-    "authProfileOverrideSource": "auto",
-    "authProfileOverrideCompactionCount": 7,
-    "totalTokens": 88889,
     "memoryFlushAt": 1774724313435,
     "memoryFlushCompactionCount": 7,
     "lastTo": "user:ou_6410d774496f03f962a689ab603b357b",
-    "inputTokens": 18596,
-    "outputTokens": 1546,
-    "cacheRead": 87348,
-    "cacheWrite": 0
+    "inputTokens": 3891,
+    "outputTokens": 345,
+    "cacheRead": 83229,
+    "cacheWrite": 0,
+    "authProfileOverride": "custom-customb2:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 7,
+    "totalTokens": 86306
   },
   "agent:chairong:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "d91a5182-335e-426a-8fdf-36fa399fd52b",
