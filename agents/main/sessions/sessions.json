@@ -373,21 +373,20 @@
   },
   "agent:main:main": {
     "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
-    "updatedAt": 1774800665451,
+    "updatedAt": 1774879111060,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
     "deliveryContext": {
-      "channel": "feishu",
-      "to": "user:ou_24546ad77a9d601f17fed19c98683117",
+      "channel": "webchat",
       "accountId": "xiangyu"
     },
-    "lastChannel": "feishu",
+    "lastChannel": "webchat",
     "lastAccountId": "xiangyu",
     "origin": {
-      "label": "用户545942",
-      "provider": "feishu",
-      "surface": "feishu",
+      "label": "ClawX",
+      "provider": "webchat",
+      "surface": "webchat",
       "chatType": "direct",
       "from": "feishu:ou_24546ad77a9d601f17fed19c98683117",
       "to": "user:ou_24546ad77a9d601f17fed19c98683117",
@@ -799,7 +798,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1774800647906,
+      "generatedAt": 1774879095138,
       "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
       "sessionKey": "agent:main:main",
       "provider": "custom-customb2",
@@ -819,9 +818,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 49698,
+        "chars": 50192,
         "projectContextChars": 14800,
-        "nonProjectContextChars": 34898
+        "nonProjectContextChars": 35392
       },
       "injectedWorkspaceFiles": [
         {
@@ -1035,8 +1034,8 @@
         ]
       },
       "tools": {
-        "listChars": 10148,
-        "schemaChars": 49293,
+        "listChars": 10608,
+        "schemaChars": 51813,
         "entries": [
           {
             "name": "read",
@@ -1081,16 +1080,34 @@
             "propertiesCount": 18
           },
           {
+            "name": "nodes",
+            "summaryChars": 122,
+            "schemaChars": 1800,
+            "propertiesCount": 37
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
             "name": "message",
-            "summaryChars": 129,
-            "schemaChars": 5365,
-            "propertiesCount": 93
+            "summaryChars": 123,
+            "schemaChars": 4898,
+            "propertiesCount": 91
           },
           {
             "name": "tts",
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 464,
+            "schemaChars": 497,
+            "propertiesCount": 12
           },
           {
             "name": "agents_list",
@@ -1378,17 +1395,16 @@
       }
     },
     "totalTokensFresh": true,
-    "inputTokens": 3971,
-    "outputTokens": 1125,
-    "cacheRead": 133526,
+    "inputTokens": 83061,
+    "outputTokens": 166,
+    "cacheRead": 4485,
     "cacheWrite": 0,
     "memoryFlushAt": 1774763380657,
     "memoryFlushCompactionCount": 1,
     "authProfileOverride": "custom-customb2:default",
     "authProfileOverrideSource": "auto",
     "authProfileOverrideCompactionCount": 1,
-    "totalTokens": 134539,
-    "lastTo": "user:ou_24546ad77a9d601f17fed19c98683117"
+    "totalTokens": 87546
   },
   "agent:main:session-1772423761783": {
     "sessionId": "ed8ed5a7-f94a-49f4-a624-1e395cf465aa",

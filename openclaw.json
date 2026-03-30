@@ -8,7 +8,8 @@
       "enabled": true
     },
     "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA",
-    "TAVILY_API_KEY": "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"
+    "TAVILY_API_KEY": "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",
+    "SSH_PASSWORD": "Ylz13181849320!"
   },
   "wizard": {
     "lastRunAt": "2026-03-04T14:47:53.841Z",
