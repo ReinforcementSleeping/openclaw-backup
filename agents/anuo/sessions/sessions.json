@@ -1,7 +1,7 @@
 {
   "agent:anuo:main": {
     "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
-    "updatedAt": 1774843650329,
+    "updatedAt": 1774966307056,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -595,7 +595,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1774843624230,
+      "generatedAt": 1774966282884,
       "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
       "sessionKey": "agent:anuo:main",
       "provider": "custom-customb2",
@@ -615,8 +615,8 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 55784,
-        "projectContextChars": 13265,
+        "chars": 56577,
+        "projectContextChars": 14058,
         "nonProjectContextChars": 42519
       },
       "injectedWorkspaceFiles": [
@@ -656,8 +656,8 @@
           "name": "USER.md",
           "path": "/Users/lynch/.openclaw/workspace-anuo/USER.md",
           "missing": false,
-          "rawChars": 223,
-          "injectedChars": 223,
+          "rawChars": 1016,
+          "injectedChars": 1016,
           "truncated": false
         },
         {
@@ -1225,11 +1225,11 @@
         ]
       }
     },
-    "inputTokens": 1477,
-    "outputTokens": 537,
-    "cacheRead": 79504,
+    "inputTokens": 962,
+    "outputTokens": 315,
+    "cacheRead": 94051,
     "cacheWrite": 0,
-    "totalTokens": 80374,
+    "totalTokens": 95013,
     "totalTokensFresh": true,
     "lastTo": "user:ou_b83724522290b2449d9ecb7166431801"
   },
