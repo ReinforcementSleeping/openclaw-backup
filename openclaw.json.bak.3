@@ -1,13 +1,21 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.2.25",
-    "lastTouchedAt": "2026-03-04T13:29:07.058Z"
+    "lastTouchedVersion": "2026.3.13",
+    "lastTouchedAt": "2026-04-04T04:10:43.339Z"
   },
   "env": {
     "shellEnv": {
       "enabled": true
     },
-    "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA"
+    "QVERIS_API_KEY": "sk-qDHmOX32qh6xAKJbeilhC6pIzrLNfUJyiMTaowGr2RA",
+    "TAVILY_API_KEY": "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",
+    "SSH_PASSWORD": "Ylz13181849320!"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-04T14:47:53.841Z",
+    "lastRunVersion": "2026.2.25",
+    "lastRunCommand": "configure",
+    "lastRunMode": "local"
   },
   "browser": {
     "enabled": true,
@@ -36,27 +44,58 @@
             "name": "minimax-portal/MiniMax-M2.5"
           }
         ]
+      },
+      "custom-customb2": {
+        "baseUrl": "https://api.z.ai/api/coding/paas/v4",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5-turbo",
+            "name": "glm-5-turbo"
+          }
+        ]
+      },
+      "custom-custom8d": {
+        "baseUrl": "https://open.bigmodel.cn/api/paas/v4",
+        "api": "openai-completions",
+        "models": [
+          {
+            "id": "glm-5-turbo",
+            "name": "glm-5-turbo"
+          }
+        ]
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "minimax-portal/MiniMax-M2.5"
+        "primary": "custom-customb2/glm-5-turbo",
+        "fallbacks": []
+      },
+      "compaction": {
+        "mode": "safeguard"
       }
     },
     "list": [
       {
-        "id": "main"
-      },
-      {
-        "id": "xiangyu",
+        "id": "main",
         "name": "xiangyu",
-        "workspace": "/Users/lynch/.openclaw/workspace-xiangyu",
-        "agentDir": "/Users/lynch/.openclaw/agents/xiangyu/agent",
+        "workspace": "/Users/lynch/.openclaw/workspace",
+        "agentDir": "/Users/lynch/.openclaw/agents/main/agent",
         "identity": {
           "name": "翔宇",
           "emoji": "🤵"
+        }
+      },
+      {
+        "id": "chairong",
+        "name": "chairong",
+        "workspace": "/Users/lynch/.openclaw/workspace-chairong",
+        "agentDir": "/Users/lynch/.openclaw/agents/chairong/agent",
+        "identity": {
+          "name": "柴荣",
+          "emoji": "👑"
         }
       },
       {
@@ -66,14 +105,14 @@
         "agentDir": "/Users/lynch/.openclaw/agents/yuantiangang/agent",
         "identity": {
           "name": "袁天罡",
-          "emoji": "🔮"
+          "emoji": "☯️"
         }
       },
       {
-        "id": "anu",
-        "name": "anu",
-        "workspace": "/Users/lynch/.openclaw/workspace-anu",
-        "agentDir": "/Users/lynch/.openclaw/agents/anu/agent",
+        "id": "anuo",
+        "name": "anuo",
+        "workspace": "/Users/lynch/.openclaw/workspace-anuo",
+        "agentDir": "/Users/lynch/.openclaw/agents/anuo/agent",
         "identity": {
           "name": "阿诺",
           "emoji": "💪"
@@ -83,47 +122,186 @@
         "id": "huatuo",
         "name": "huatuo",
         "workspace": "/Users/lynch/.openclaw/workspace-huatuo",
-        "agentDir": "/Users/lynch/.openclaw/agents/huatuo/agent"
+        "agentDir": "/Users/lynch/.openclaw/agents/huatuo/agent",
+        "identity": {
+          "name": "华佗",
+          "emoji": "🌿"
+        }
       },
       {
         "id": "mrbeast",
         "name": "mrbeast",
         "workspace": "/Users/lynch/.openclaw/workspace-mrbeast",
-        "agentDir": "/Users/lynch/.openclaw/agents/mrbeast/agent"
+        "agentDir": "/Users/lynch/.openclaw/agents/mrbeast/agent",
+        "identity": {
+          "name": "MrBeast",
+          "emoji": "🎬"
+        }
       }
     ]
   },
+  "tools": {
+    "profile": "full",
+    "sessions": {
+      "visibility": "all"
+    }
+  },
+  "bindings": [
+    {
+      "agentId": "chairong",
+      "match": {
+        "channel": "feishu",
+        "accountId": "chairong"
+      }
+    },
+    {
+      "agentId": "yuantiangang",
+      "match": {
+        "channel": "feishu",
+        "accountId": "yuantiangang"
+      }
+    },
+    {
+      "agentId": "huatuo",
+      "match": {
+        "channel": "feishu",
+        "accountId": "huatuo"
+      }
+    },
+    {
+      "agentId": "anuo",
+      "match": {
+        "channel": "feishu",
+        "accountId": "anuo"
+      }
+    },
+    {
+      "agentId": "mrbeast",
+      "match": {
+        "channel": "feishu",
+        "accountId": "mrbeast"
+      }
+    },
+    {
+      "agentId": "main",
+      "match": {
+        "channel": "feishu",
+        "accountId": "xiangyu"
+      }
+    }
+  ],
   "commands": {
     "native": "auto",
     "nativeSkills": "auto",
     "restart": true,
     "ownerDisplay": "raw"
   },
+  "session": {
+    "idleMinutes": 10080
+  },
   "channels": {
     "feishu": {
-      "appId": "cli_a92fbdeb3f3adcd4",
-      "appSecret": "AwkfI3FVcBthDcPPbX3Yvch1oyxo8bGF",
       "dmPolicy": "open",
       "allowFrom": [
         "*"
       ],
-      "enabled": true
+      "connectionMode": "websocket",
+      "enabled": true,
+      "domain": "feishu",
+      "groupPolicy": "open",
+      "accounts": {
+        "chairong": {
+          "appId": "cli_a92fbdeb3f3adcd4",
+          "appSecret": "AwkfI3FVcBthDcPPbX3Yvch1oyxo8bGF"
+        },
+        "xiangyu": {
+          "appId": "cli_a92285e8be3adcc9",
+          "appSecret": "cr58bTZ0bnZpkvGXV1499fcytZa8Mfzc"
+        },
+        "yuantiangang": {
+          "appId": "cli_a922807de1e25cc4",
+          "appSecret": "UMJyHhLVcDHtCW9N1d2c1cM81FjzLbCx"
+        },
+        "huatuo": {
+          "appId": "cli_a92287b98b78dcee",
+          "appSecret": "Lj4QVpyuHlvgfo5sHF0xyfWYofxRkBpq"
+        },
+        "anuo": {
+          "appId": "cli_a922800fa5fb9cc7",
+          "appSecret": "wycvlsNvTmmkTkI0n4PnDKNCYZgsnDpl"
+        },
+        "mrbeast": {
+          "appId": "cli_a92280bedbb85cc9",
+          "appSecret": "tz34PGW7bWrPlDY3e1QPjeQuaM7zzQBX"
+        }
+      }
     }
   },
   "gateway": {
     "mode": "local",
+    "controlUi": {
+      "allowedOrigins": [
+        "file://"
+      ]
+    },
     "auth": {
       "mode": "token",
       "token": "clawx-41d0c05819f8ac658ca4c5ab2d6fadb3"
     }
   },
+  "skills": {
+    "entries": {
+      "pdf": {
+        "enabled": true
+      },
+      "xlsx": {
+        "enabled": true
+      },
+      "docx": {
+        "enabled": true
+      },
+      "pptx": {
+        "enabled": true
+      },
+      "find-skills": {
+        "enabled": true
+      },
+      "self-improving-agent": {
+        "enabled": true
+      },
+      "tavily-search": {
+        "enabled": true
+      },
+      "brave-web-search": {
+        "enabled": true
+      }
+    }
+  },
   "plugins": {
+    "allow": [
+      "minimax-portal-auth",
+      "openclaw-lark"
+    ],
     "entries": {
       "minimax-portal-auth": {
         "enabled": true
       },
       "feishu": {
+        "enabled": false
+      },
+      "openclaw-lark": {
         "enabled": true
+      },
+      "trae-ide": {
+        "enabled": false
+      },
+      "traeclaw": {
+        "enabled": true,
+        "config": {
+          "baseUrl": "http://127.0.0.1:8787",
+          "autoStart": true,
+          "quickstartCommand": "/Users/lynch/.openclaw/tools/TraeClaw/start-traeapi.command"
+        }
       }
     }
   }

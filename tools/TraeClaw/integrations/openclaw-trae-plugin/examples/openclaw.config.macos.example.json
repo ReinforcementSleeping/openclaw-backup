@@ -1,0 +1,33 @@
+{
+  "plugins": {
+    "load": {
+      "paths": [
+        "/Users/you/TraeClaw/integrations/openclaw-trae-plugin"
+      ]
+    },
+    "entries": {
+      "traeclaw": {
+        "enabled": true,
+        "config": {
+          "baseUrl": "http://127.0.0.1:8787",
+          "autoStart": true,
+          "quickstartCommand": "\"/Users/you/TraeClaw/start-traeapi.command\"",
+          "quickstartCwd": "/Users/you/TraeClaw"
+        }
+      }
+    }
+  },
+  "tools": {
+    "alsoAllow": ["traeclaw"]
+  },
+  "agents": {
+    "list": [
+      {
+        "id": "main",
+        "tools": {
+          "alsoAllow": ["trae_status", "trae_update_self", "trae_new_chat", "trae_delegate"]
+        }
+      }
+    ]
+  }
+}

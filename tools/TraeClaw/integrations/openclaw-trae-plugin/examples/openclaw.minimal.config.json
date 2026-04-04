@@ -1,0 +1,20 @@
+{
+  "plugins": {
+    "load": {
+      "paths": [
+        "C:\\path\\to\\TraeClaw\\integrations\\openclaw-trae-plugin"
+      ]
+    },
+    "entries": {
+      "traeclaw": {
+        "enabled": true,
+        "config": {
+          "baseUrl": "http://127.0.0.1:8787"
+        }
+      }
+    }
+  },
+  "tools": {
+    "alsoAllow": ["traeclaw", "trae_update_self"]
+  }
+}

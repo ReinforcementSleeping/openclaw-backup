@@ -1,0 +1,10 @@
+.runtime/
+integrations/openclaw-trae-plugin/runtime/
+debug.log
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+__pycache__/
+*.pyc

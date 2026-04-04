@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "language": "zh-CN",
+  "product": "TraeClaw OpenClaw Integration",
+  "repo": "https://github.com/firerlAGI/TraeClaw",
+  "preferredPlatform": "cross-platform",
+  "pluginId": "traeclaw",
+  "tools": [
+    "trae_status",
+    "trae_delegate"
+  ],
+  "source": {
+    "repoZipUrl": "https://github.com/firerlAGI/TraeClaw/archive/refs/heads/main.zip",
+    "bootstrapScriptUrl": "https://raw.githubusercontent.com/firerlAGI/TraeClaw/main/scripts/bootstrap-openclaw-integration.ps1",
+    "bootstrapScriptUrlMac": "https://raw.githubusercontent.com/firerlAGI/TraeClaw/main/scripts/bootstrap-openclaw-integration.sh"
+  },
+  "install": {
+    "preferredScript": "scripts/bootstrap-openclaw-integration.ps1",
+    "localScript": "scripts/install-openclaw-integration.ps1",
+    "quickstartCommand": "start-traeapi.cmd",
+    "preferredScriptMac": "scripts/bootstrap-openclaw-integration.sh",
+    "localScriptMac": "scripts/install-openclaw-integration.sh",
+    "quickstartCommandMac": "start-traeapi.command"
+  },
+  "verify": [
+    "openclaw plugins info traeclaw",
+    "openclaw config validate"
+  ],
+  "notes": [
+    "Do not try to install the plugin from a GitHub URL directly.",
+    "Download the repo or bootstrap script first, then install locally.",
+    "After install, restart OpenClaw Gateway before calling trae_status."
+  ],
+  "supportedPlatforms": [
+    "windows",
+    "macos"
+  ]
+}

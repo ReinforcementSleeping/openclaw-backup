@@ -1,7 +1,7 @@
 {
   "agent:anuo:main": {
     "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
-    "updatedAt": 1775124836845,
+    "updatedAt": 1775298400010,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -595,7 +595,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775124805285,
+      "generatedAt": 1775298395707,
       "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
       "sessionKey": "agent:anuo:main",
       "provider": "custom-customb2",
@@ -615,9 +615,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 56577,
-        "projectContextChars": 14058,
-        "nonProjectContextChars": 42519
+        "chars": 57528,
+        "projectContextChars": 14246,
+        "nonProjectContextChars": 43282
       },
       "injectedWorkspaceFiles": [
         {
@@ -632,8 +632,8 @@
           "name": "SOUL.md",
           "path": "/Users/lynch/.openclaw/workspace-anuo/SOUL.md",
           "missing": false,
-          "rawChars": 718,
-          "injectedChars": 718,
+          "rawChars": 906,
+          "injectedChars": 906,
           "truncated": false
         },
         {
@@ -883,8 +883,8 @@
         ]
       },
       "tools": {
-        "listChars": 10148,
-        "schemaChars": 49293,
+        "listChars": 10911,
+        "schemaChars": 50238,
         "entries": [
           {
             "name": "read",
@@ -1221,16 +1221,52 @@
             "summaryChars": 55,
             "schemaChars": 162,
             "propertiesCount": 0
+          },
+          {
+            "name": "trae_status",
+            "summaryChars": 90,
+            "schemaChars": 113,
+            "propertiesCount": 1
+          },
+          {
+            "name": "trae_update_self",
+            "summaryChars": 119,
+            "schemaChars": 104,
+            "propertiesCount": 1
+          },
+          {
+            "name": "trae_new_chat",
+            "summaryChars": 89,
+            "schemaChars": 112,
+            "propertiesCount": 1
+          },
+          {
+            "name": "trae_open_project",
+            "summaryChars": 100,
+            "schemaChars": 134,
+            "propertiesCount": 1
+          },
+          {
+            "name": "trae_switch_mode",
+            "summaryChars": 89,
+            "schemaChars": 179,
+            "propertiesCount": 2
+          },
+          {
+            "name": "trae_delegate",
+            "summaryChars": 160,
+            "schemaChars": 303,
+            "propertiesCount": 5
           }
         ]
       }
     },
-    "inputTokens": 114005,
-    "outputTokens": 227,
-    "cacheRead": 119936,
+    "inputTokens": 612,
+    "outputTokens": 32,
+    "cacheRead": 130624,
     "cacheWrite": 0,
     "totalTokensFresh": true,
-    "totalTokens": 120145,
+    "totalTokens": 131236,
     "lastTo": "user:ou_b83724522290b2449d9ecb7166431801"
   },
   "agent:anuo:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {

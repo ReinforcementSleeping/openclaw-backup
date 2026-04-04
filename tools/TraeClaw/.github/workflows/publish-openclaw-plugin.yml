@@ -1,0 +1,54 @@
+name: Publish OpenClaw Plugin
+
+on:
+  workflow_dispatch:
+    inputs:
+      npm_tag:
+        description: npm dist-tag to publish under
+        required: true
+        default: latest
+        type: choice
+        options:
+          - latest
+          - beta
+          - next
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Upgrade npm for trusted publishing
+        run: npm install --global npm@latest
+
+      - name: Show runtime versions
+        run: |
+          node --version
+          npm --version
+
+      - name: Verify plugin release metadata
+        run: npm run release:openclaw-plugin:check
+
+      - name: Run plugin tests
+        run: npm run test:openclaw-plugin
+
+      - name: Dry-run plugin package
+        run: npm run pack:openclaw-plugin
+
+      - name: Publish plugin to npm
+        working-directory: integrations/openclaw-trae-plugin
+        run: npm publish --tag "${{ inputs.npm_tag }}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

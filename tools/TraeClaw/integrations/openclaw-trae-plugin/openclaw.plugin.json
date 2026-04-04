@@ -1,0 +1,124 @@
+{
+  "id": "traeclaw",
+  "name": "TraeClaw",
+  "version": "0.3.1",
+  "description": "Delegate IDE tasks from OpenClaw to a local TraeClaw instance that drives the Trae desktop app.",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "baseUrl": {
+        "type": "string",
+        "default": "http://127.0.0.1:8787"
+      },
+      "token": {
+        "type": "string",
+        "default": ""
+      },
+      "autoStart": {
+        "type": "boolean",
+        "default": false
+      },
+      "checkForUpdates": {
+        "type": "boolean",
+        "default": true
+      },
+      "autoApplyUpdates": {
+        "type": "boolean",
+        "default": false
+      },
+      "openclawCommand": {
+        "type": "string",
+        "default": "openclaw"
+      },
+      "quickstartCommand": {
+        "type": "string",
+        "default": ""
+      },
+      "quickstartCwd": {
+        "type": "string",
+        "default": ""
+      },
+      "readyTimeoutMs": {
+        "type": "integer",
+        "minimum": 1000,
+        "default": 45000
+      },
+      "requestTimeoutMs": {
+        "type": "integer",
+        "minimum": 5000,
+        "default": 180000
+      },
+      "updateCheckTimeoutMs": {
+        "type": "integer",
+        "minimum": 250,
+        "default": 2500
+      },
+      "updateCommandTimeoutMs": {
+        "type": "integer",
+        "minimum": 1000,
+        "default": 120000
+      },
+      "autoUpdateStartDelayMs": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 30000
+      },
+      "autoUpdateIntervalMs": {
+        "type": "integer",
+        "minimum": 0,
+        "default": 21600000
+      }
+    }
+  },
+  "uiHints": {
+    "baseUrl": {
+      "label": "TraeClaw Base URL",
+      "placeholder": "http://127.0.0.1:8787"
+    },
+    "token": {
+      "label": "Bearer Token",
+      "sensitive": true,
+      "placeholder": "Optional"
+    },
+    "autoStart": {
+      "label": "Auto-start TraeClaw"
+    },
+    "checkForUpdates": {
+      "label": "Check for plugin updates"
+    },
+    "autoApplyUpdates": {
+      "label": "Auto-apply plugin updates"
+    },
+    "openclawCommand": {
+      "label": "OpenClaw Command",
+      "placeholder": "openclaw or /path/to/openclaw"
+    },
+    "quickstartCommand": {
+      "label": "Quickstart Command",
+      "placeholder": "\"C:\\path\\to\\TraeClaw\\start-traeapi.cmd\" or \"/Users/you/TraeClaw/start-traeapi.command\""
+    },
+    "quickstartCwd": {
+      "label": "Quickstart Working Directory",
+      "placeholder": "C:\\path\\to\\TraeClaw or /Users/you/TraeClaw"
+    },
+    "readyTimeoutMs": {
+      "label": "Ready Timeout (ms)"
+    },
+    "requestTimeoutMs": {
+      "label": "Request Timeout (ms)"
+    },
+    "updateCheckTimeoutMs": {
+      "label": "Update Check Timeout (ms)"
+    },
+    "updateCommandTimeoutMs": {
+      "label": "Update Command Timeout (ms)"
+    },
+    "autoUpdateStartDelayMs": {
+      "label": "Auto Update Start Delay (ms)"
+    },
+    "autoUpdateIntervalMs": {
+      "label": "Auto Update Interval (ms)"
+    }
+  }
+}
