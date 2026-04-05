@@ -1,21 +1,20 @@
 {
   "agent:chairong:main": {
     "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
-    "updatedAt": 1775278682476,
+    "updatedAt": 1775395222634,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
     "deliveryContext": {
-      "channel": "feishu",
-      "to": "user:ou_6410d774496f03f962a689ab603b357b",
+      "channel": "webchat",
       "accountId": "chairong"
     },
-    "lastChannel": "feishu",
+    "lastChannel": "webchat",
     "lastAccountId": "chairong",
     "origin": {
-      "label": "用户545942",
-      "provider": "feishu",
-      "surface": "feishu",
+      "label": "ClawX",
+      "provider": "webchat",
+      "surface": "webchat",
       "chatType": "direct",
       "from": "feishu:ou_6410d774496f03f962a689ab603b357b",
       "to": "user:ou_6410d774496f03f962a689ab603b357b",
@@ -416,7 +415,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775278624427,
+      "generatedAt": 1775395050155,
       "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
       "sessionKey": "agent:chairong:main",
       "provider": "custom-customb2",
@@ -436,9 +435,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 47040,
+        "chars": 47533,
         "projectContextChars": 11400,
-        "nonProjectContextChars": 35640
+        "nonProjectContextChars": 36133
       },
       "injectedWorkspaceFiles": [
         {
@@ -648,8 +647,8 @@
         ]
       },
       "tools": {
-        "listChars": 10911,
-        "schemaChars": 50238,
+        "listChars": 11371,
+        "schemaChars": 52758,
         "entries": [
           {
             "name": "read",
@@ -694,16 +693,34 @@
             "propertiesCount": 18
           },
           {
+            "name": "nodes",
+            "summaryChars": 122,
+            "schemaChars": 1800,
+            "propertiesCount": 37
+          },
+          {
+            "name": "cron",
+            "summaryChars": 2689,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
             "name": "message",
-            "summaryChars": 129,
-            "schemaChars": 5365,
-            "propertiesCount": 93
+            "summaryChars": 123,
+            "schemaChars": 4898,
+            "propertiesCount": 91
           },
           {
             "name": "tts",
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 464,
+            "schemaChars": 497,
+            "propertiesCount": 12
           },
           {
             "name": "agents_list",
@@ -1032,12 +1049,11 @@
     "authProfileOverride": "custom-customb2:default",
     "authProfileOverrideSource": "auto",
     "authProfileOverrideCompactionCount": 10,
-    "totalTokens": 125334,
-    "inputTokens": 96800,
-    "outputTokens": 1674,
-    "cacheRead": 124928,
-    "cacheWrite": 0,
-    "lastTo": "user:ou_6410d774496f03f962a689ab603b357b"
+    "totalTokens": 135284,
+    "inputTokens": 1058,
+    "outputTokens": 294,
+    "cacheRead": 134726,
+    "cacheWrite": 0
   },
   "agent:chairong:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "d91a5182-335e-426a-8fdf-36fa399fd52b",

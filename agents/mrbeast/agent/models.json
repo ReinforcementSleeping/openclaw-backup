@@ -3,6 +3,7 @@
     "minimax-portal": {
       "baseUrl": "https://api.minimaxi.com/anthropic",
       "api": "anthropic-messages",
+      "authHeader": true,
       "models": [
         {
           "id": "MiniMax-M2.5",
@@ -22,9 +23,26 @@
           "api": "anthropic-messages"
         },
         {
-          "id": "MiniMax-M2.1",
-          "name": "MiniMax M2.1",
+          "id": "MiniMax-VL-01",
+          "name": "MiniMax VL 01",
           "reasoning": false,
+          "input": [
+            "text",
+            "image"
+          ],
+          "cost": {
+            "input": 0.3,
+            "output": 1.2,
+            "cacheRead": 0.03,
+            "cacheWrite": 0.12
+          },
+          "contextWindow": 200000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "MiniMax-M2.5-highspeed",
+          "name": "MiniMax M2.5 Highspeed",
+          "reasoning": true,
           "input": [
             "text"
           ],
@@ -70,7 +88,20 @@
       "models": [
         {
           "id": "glm-5-turbo",
-          "name": "glm-5-turbo"
+          "name": "glm-5-turbo",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "api": "openai-completions"
         }
       ],
       "apiKey": "eb80724b52cb4eaab2de5469e666b366.idiS1EGFUOuJnbad"
@@ -81,7 +112,20 @@
       "models": [
         {
           "id": "glm-5-turbo",
-          "name": "glm-5-turbo"
+          "name": "glm-5-turbo",
+          "reasoning": false,
+          "input": [
+            "text"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 200000,
+          "maxTokens": 8192,
+          "api": "openai-completions"
         }
       ],
       "apiKey": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
