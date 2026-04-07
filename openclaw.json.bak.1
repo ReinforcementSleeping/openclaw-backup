@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-04-04T04:10:47.625Z"
+    "lastTouchedAt": "2026-04-04T04:14:33.352Z"
   },
   "env": {
     "shellEnv": {
@@ -12,9 +12,9 @@
     "SSH_PASSWORD": "Ylz13181849320!"
   },
   "wizard": {
-    "lastRunAt": "2026-03-04T14:47:53.841Z",
-    "lastRunVersion": "2026.2.25",
-    "lastRunCommand": "configure",
+    "lastRunAt": "2026-04-04T04:14:33.342Z",
+    "lastRunVersion": "2026.3.13",
+    "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
   "browser": {
@@ -211,14 +211,9 @@
   },
   "channels": {
     "feishu": {
-      "dmPolicy": "open",
-      "allowFrom": [
-        "*"
-      ],
       "connectionMode": "websocket",
       "enabled": true,
       "domain": "feishu",
-      "groupPolicy": "open",
       "accounts": {
         "chairong": {
           "appId": "cli_a92fbdeb3f3adcd4",
@@ -243,8 +238,20 @@
         "mrbeast": {
           "appId": "cli_a92280bedbb85cc9",
           "appSecret": "tz34PGW7bWrPlDY3e1QPjeQuaM7zzQBX"
+        },
+        "default": {
+          "dmPolicy": "open",
+          "allowFrom": [
+            "*"
+          ],
+          "groupPolicy": "open"
         }
-      }
+      },
+      "dmPolicy": "open",
+      "allowFrom": [
+        "*"
+      ],
+      "groupPolicy": "open"
     }
   },
   "gateway": {
@@ -290,6 +297,7 @@
   "plugins": {
     "allow": [
       "minimax-portal-auth",
+      "traeclaw",
       "openclaw-lark"
     ],
     "entries": {
@@ -313,7 +321,7 @@
           "quickstartCommand": "/Users/lynch/.openclaw/tools/TraeClaw/start-traeapi.command",
           "quickstartCwd": "/Users/lynch/.openclaw/tools/TraeClaw"
         },
-        "loadPath": "/Users/lynch/.openclaw/tools/TraeClaw/integrations/openclaw-trae-plugin"
+        "loadPath": "/Users/lynch/.openclaw/extensions/traeclaw"
       }
     }
   }

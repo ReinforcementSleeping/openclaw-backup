@@ -1,12 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { DWClient, TOPIC_CARD, TOPIC_ROBOT } from "dingtalk-stream";
-import type {
-  ChannelMessageActionAdapter,
-  OpenClawConfig,
-} from "openclaw/plugin-sdk";
-import * as pluginSdk from "openclaw/plugin-sdk";
+import type { ChannelMessageActionAdapter } from "openclaw/plugin-sdk/channel-contract";
+import { buildChannelConfigSchema, type OpenClawConfig } from "openclaw/plugin-sdk/core";
+import { jsonResult } from "openclaw/plugin-sdk/telegram-core";
+import { readStringParam } from "openclaw/plugin-sdk/param-readers";
+import { extractToolSend } from "openclaw/plugin-sdk/tool-send";
 import { getAccessToken } from "./auth";
 import { analyzeCardCallback } from "./card-callback-service";
+import { handleCardAction } from "./card/card-action-handler";
 import {
   createAICard,
   streamAICard,
@@ -18,23 +19,25 @@ import {
   getConfig,
   isConfigured,
   mergeAccountWithDefaults,
+  resolveGroupConfig,
   resolveRelativePath,
+  resolveRobotCode,
   stripTargetPrefix,
 } from "./config";
 import { DingTalkConfigSchema } from "./config-schema.js";
 import { ConnectionManager } from "./connection-manager";
 import { isMessageProcessed, markMessageProcessed } from "./dedup";
+import {
+  isLearningAutoApplyEnabled,
+  isLearningEnabled,
+  recordExplicitFeedbackLearning,
+} from "./feedback-learning-service";
 import { handleDingTalkMessage } from "./inbound-handler";
 import { getLogger } from "./logger-context";
 import { prepareMediaInput, resolveOutboundMediaType } from "./media-utils";
-import { dingtalkOnboardingAdapter } from "./onboarding.js";
+import { dingtalkSetupAdapter, dingtalkSetupWizard } from "./onboarding.js";
 import { resolveOriginalPeerId, preloadPeerIdsFromSessions } from "./peer-id-registry";
 import { getDingTalkRuntime } from "./runtime";
-import {
-  isFeedbackLearningAutoApplyEnabled,
-  isFeedbackLearningEnabled,
-  recordExplicitFeedbackLearning,
-} from "./feedback-learning-service";
 import {
   sendMessage,
   sendProactiveMedia,
@@ -42,6 +45,12 @@ import {
   sendBySession,
   uploadMedia,
 } from "./send-service";
+import {
+  listDingTalkDirectoryGroups,
+  listDingTalkDirectoryUsers,
+  normalizeResolvedDingTalkTarget,
+} from "./targeting/target-directory-adapter";
+import { looksLikeDingTalkTargetId, normalizeDingTalkTarget } from "./targeting/target-input";
 import type {
   DingTalkInboundMessage,
   GatewayStartContext,
@@ -93,7 +102,11 @@ function getInstrumentedEndpoint(client: InstrumentedDWClient): string | undefin
   if (typeof endpointConfig === "string") {
     return endpointConfig;
   }
-  if (endpointConfig && typeof endpointConfig === "object" && typeof endpointConfig.endpoint === "string") {
+  if (
+    endpointConfig &&
+    typeof endpointConfig === "object" &&
+    typeof endpointConfig.endpoint === "string"
+  ) {
     return endpointConfig.endpoint;
   }
   return undefined;
@@ -101,7 +114,10 @@ function getInstrumentedEndpoint(client: InstrumentedDWClient): string | undefin
 
 function instrumentConnectionStages(client: DWClient): void {
   const instrumented = client as unknown as InstrumentedDWClient;
-  if (typeof instrumented.getEndpoint !== "function" || typeof instrumented._connect !== "function") {
+  if (
+    typeof instrumented.getEndpoint !== "function" ||
+    typeof instrumented._connect !== "function"
+  ) {
     return;
   }
 
@@ -195,26 +211,46 @@ function readBooleanLikeParam(params: Record<string, unknown>, key: string): boo
   return undefined;
 }
 
+function describeDingTalkMessageTool(cfg: OpenClawConfig): {
+  actions: readonly ["send"] | readonly [];
+  capabilities: readonly ["cards"] | readonly [];
+  schema: null;
+} {
+  const config = getConfig(cfg);
+  const configured = Boolean(config.clientId && config.clientSecret);
+  if (!configured && !(config.accounts && Object.keys(config.accounts).length > 0)) {
+    return { actions: [], capabilities: [], schema: null };
+  }
+  const hasCardMode =
+    config.messageType === "card" ||
+    (config.accounts && Object.values(config.accounts).some((a) => a?.messageType === "card"));
+  return {
+    actions: ["send"] as const,
+    capabilities: hasCardMode ? (["cards"] as const) : [],
+    schema: null,
+  };
+}
+
 const dingtalkMessageActions: ChannelMessageActionAdapter = {
-  listActions: () => ["send"],
+  describeMessageTool: ({ cfg }) => describeDingTalkMessageTool(cfg),
   supportsAction: ({ action }) => action === "send",
-  extractToolSend: ({ args }) => pluginSdk.extractToolSend(args, "sendMessage"),
-  handleAction: async ({ action, params, cfg, accountId, dryRun }) => {
+  extractToolSend: ({ args }) => extractToolSend(args, "sendMessage"),
+  handleAction: async ({ action, params, cfg, accountId, dryRun, mediaLocalRoots }) => {
     if (action !== "send") {
       throw new Error(`Action ${action} is not supported for provider dingtalk.`);
     }
 
-    const to = pluginSdk.readStringParam(params, "to", { required: true });
+    const to = readStringParam(params, "to", { required: true });
     const mediaInput =
-      pluginSdk.readStringParam(params, "media", { trim: false }) ??
-      pluginSdk.readStringParam(params, "path", { trim: false }) ??
-      pluginSdk.readStringParam(params, "filePath", { trim: false }) ??
-      pluginSdk.readStringParam(params, "mediaUrl", { trim: false });
+      readStringParam(params, "media", { trim: false }) ??
+      readStringParam(params, "path", { trim: false }) ??
+      readStringParam(params, "filePath", { trim: false }) ??
+      readStringParam(params, "mediaUrl", { trim: false });
 
     const hasMedia = Boolean(mediaInput && mediaInput.trim());
-    const caption = pluginSdk.readStringParam(params, "caption", { allowEmpty: true }) ?? "";
+    const caption = readStringParam(params, "caption", { allowEmpty: true }) ?? "";
     let message =
-      pluginSdk.readStringParam(params, "message", {
+      readStringParam(params, "message", {
         required: !hasMedia,
         allowEmpty: true,
       }) ?? "";
@@ -224,12 +260,12 @@ const dingtalkMessageActions: ChannelMessageActionAdapter = {
     }
 
     const asVoice = readBooleanLikeParam(params, "asVoice") === true;
-    const requestedMediaType = pluginSdk.readStringParam(params, "mediaType");
+    const requestedMediaType = readStringParam(params, "mediaType");
 
     const target = resolveOriginalPeerId(stripTargetPrefix(to).targetId);
 
     if (dryRun) {
-      return pluginSdk.jsonResult({
+      return jsonResult({
         ok: true,
         dryRun: true,
         to: target,
@@ -256,13 +292,14 @@ const dingtalkMessageActions: ChannelMessageActionAdapter = {
         const result = await sendProactiveMedia(config, target, mediaPath, mediaType, {
           log,
           accountId: accountId ?? undefined,
+          mediaLocalRoots: mediaLocalRoots ? [...mediaLocalRoots] : undefined,
         });
 
         if (!result.ok) {
           throw new Error(result.error || "send media failed");
         }
 
-        return pluginSdk.jsonResult({
+        return jsonResult({
           ok: true,
           to: target,
           mediaType,
@@ -294,7 +331,7 @@ const dingtalkMessageActions: ChannelMessageActionAdapter = {
     }
 
     const data = result.data as any;
-    return pluginSdk.jsonResult({
+    return jsonResult({
       ok: true,
       to: target,
       messageId: data?.processQueryKey || data?.messageId || null,
@@ -311,12 +348,13 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
     id: "dingtalk",
     label: "DingTalk",
     selectionLabel: "DingTalk (钉钉)",
-    docsPath: "/channels/dingtalk",
+    docsPath: "https://github.com/soimy/openclaw-channel-dingtalk",
     blurb: "钉钉企业内部机器人，使用 Stream 模式，无需公网 IP。",
     aliases: ["dd", "ding"],
   },
-  configSchema: pluginSdk.buildChannelConfigSchema(DingTalkConfigSchema),
-  onboarding: dingtalkOnboardingAdapter,
+  configSchema: buildChannelConfigSchema(DingTalkConfigSchema),
+  setup: dingtalkSetupAdapter,
+  setupWizard: dingtalkSetupWizard,
   capabilities: {
     chatTypes: ["direct", "group"] as Array<"direct" | "group">,
     reactions: false,
@@ -339,9 +377,7 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
       const config = getConfig(cfg);
       const id = accountId || "default";
       const account = config.accounts?.[id];
-      const resolvedConfig = account
-        ? mergeAccountWithDefaults(config, account)
-        : config;
+      const resolvedConfig = account ? mergeAccountWithDefaults(config, account) : config;
       const configured = Boolean(resolvedConfig.clientId && resolvedConfig.clientSecret);
       return {
         accountId: id,
@@ -372,7 +408,16 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
     }),
   },
   groups: {
-    resolveRequireMention: ({ cfg }: any): boolean => getConfig(cfg).groupPolicy !== "open",
+    resolveRequireMention: ({ cfg, groupId }: any): boolean => {
+      const config = getConfig(cfg);
+      if (groupId) {
+        const groupCfg = resolveGroupConfig(config, groupId);
+        if (groupCfg?.requireMention !== undefined) {
+          return groupCfg.requireMention;
+        }
+      }
+      return config.groupPolicy !== "open";
+    },
     resolveGroupIntroHint: ({ groupId, groupChannel }: any): string | undefined => {
       const parts = [`conversationId=${groupId}`];
       if (groupChannel) {
@@ -382,11 +427,19 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
     },
   },
   messaging: {
-    normalizeTarget: (raw: string) => (raw ? raw.replace(/^(dingtalk|dd|ding):/i, "") : undefined),
+    normalizeTarget: (raw: string) => (raw ? normalizeDingTalkTarget(raw) : undefined),
     targetResolver: {
-      looksLikeId: (id: string): boolean => /^[\w+\-/=]+$/.test(id),
-      hint: "<conversationId>",
+      looksLikeId: (raw: string, normalized?: string): boolean =>
+        looksLikeDingTalkTargetId(raw, normalized),
+      hint: "<displayName|conversationId|user:staffId|user:+861...>",
     },
+  },
+  directory: {
+    self: async () => null,
+    listGroups: async (params) => listDingTalkDirectoryGroups(params),
+    listGroupsLive: async (params) => listDingTalkDirectoryGroups(params),
+    listPeers: async (params) => listDingTalkDirectoryUsers(params),
+    listPeersLive: async (params) => listDingTalkDirectoryUsers(params),
   },
   actions: dingtalkMessageActions,
   outbound: {
@@ -399,9 +452,7 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
           error: new Error("DingTalk message requires --to <conversationId>"),
         };
       }
-      const { targetId } = stripTargetPrefix(trimmed);
-      const resolved = resolveOriginalPeerId(targetId);
-      return { ok: true as const, to: resolved };
+      return { ok: true as const, to: normalizeResolvedDingTalkTarget(trimmed) };
     },
     sendText: async ({ cfg, to, text, accountId, log }: any) => {
       const config = getConfig(cfg, accountId);
@@ -455,6 +506,7 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
       mediaType: providedMediaType,
       asVoice,
       accountId,
+      mediaLocalRoots,
       log,
     }: any) => {
       const config = getConfig(cfg, accountId);
@@ -490,12 +542,17 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
           preparedMedia = await prepareMediaInput(rawMediaPath, log, config.mediaUrlAllowlist);
         } catch (err: any) {
           if (err?.response?.data !== undefined) {
-            log?.error?.(formatDingTalkErrorPayloadLog("outbound.sendMedia.prepare", err.response.data));
+            log?.error?.(
+              formatDingTalkErrorPayloadLog("outbound.sendMedia.prepare", err.response.data),
+            );
           }
           const errorCode = typeof err?.code === "string" ? `[${err.code}] ` : "";
-          throw new Error(`remote media preparation failed: ${errorCode}${err?.message || "unknown error"}`, {
-            cause: err,
-          });
+          throw new Error(
+            `remote media preparation failed: ${errorCode}${err?.message || "unknown error"}`,
+            {
+              cause: err,
+            },
+          );
         }
 
         const actualMediaPath = preparedMedia.cleanup
@@ -518,10 +575,13 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
             accountId,
             storePath,
             conversationId: to,
+            mediaLocalRoots,
           });
         } catch (err: any) {
           if (err?.response?.data !== undefined) {
-            log?.error?.(formatDingTalkErrorPayloadLog("outbound.sendMedia.send", err.response.data));
+            log?.error?.(
+              formatDingTalkErrorPayloadLog("outbound.sendMedia.send", err.response.data),
+            );
           }
           throw new Error(`proactive media send failed: ${err?.message || "unknown error"}`, {
             cause: err,
@@ -650,13 +710,14 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
           try {
             const data = JSON.parse(res.data) as DingTalkInboundMessage;
 
-            const robotKey = config.robotCode || config.clientId || account.accountId;
+            const robotKey = resolveRobotCode(config) || account.accountId;
             const msgId = data.msgId || messageId;
             const dedupKey = msgId ? `${robotKey}:${msgId}` : undefined;
 
             if (!dedupKey) {
               ctx.log?.warn?.(`[${account.accountId}] No message ID available for deduplication`);
               stats.noMessageId += 1;
+              acknowledge();
               await handleDingTalkMessage({
                 cfg,
                 accountId: account.accountId,
@@ -666,7 +727,6 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
                 dingtalkConfig: config,
               });
               stats.processed += 1;
-              acknowledge();
               if (stats.received % INBOUND_COUNTER_LOG_EVERY === 0) {
                 logInboundCounters(ctx.log, account.accountId, "periodic");
               }
@@ -693,11 +753,13 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
                   `[${account.accountId}] Skipping in-flight duplicate message: ${dedupKey}`,
                 );
                 stats.inflightSkipped += 1;
+                acknowledge();
                 logInboundCounters(ctx.log, account.accountId, "inflight-skipped");
                 return;
               }
             }
 
+            acknowledge();
             processingDedupKeys.set(dedupKey, Date.now());
             try {
               await handleDingTalkMessage({
@@ -710,7 +772,6 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
               });
               stats.processed += 1;
               markMessageProcessed(dedupKey);
-              acknowledge();
               if (stats.received % INBOUND_COUNTER_LOG_EVERY === 0) {
                 logInboundCounters(ctx.log, account.accountId, "periodic");
               }
@@ -748,15 +809,15 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
 
             if (analysis.feedbackTarget && analysis.feedbackAckText) {
               recordExplicitFeedbackLearning({
-                enabled: isFeedbackLearningEnabled(config),
-                autoApply: isFeedbackLearningAutoApplyEnabled(config),
+                enabled: isLearningEnabled(config),
+                autoApply: isLearningAutoApplyEnabled(config),
                 storePath: accountStorePath,
                 accountId: account.accountId,
                 targetId: analysis.feedbackTarget,
                 feedbackType: analysis.actionId === "feedback_up" ? "feedback_up" : "feedback_down",
                 userId: analysis.userId,
                 processQueryKey: analysis.processQueryKey,
-                noteTtlMs: config.learningNoteTtlMs ?? config.feedbackLearningNoteTtlMs,
+                noteTtlMs: config.learningNoteTtlMs,
               });
               try {
                 await sendProactiveTextOrMarkdown(
@@ -776,6 +837,18 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
                   `[${account.accountId}] [DingTalk][CardCallback] Failed to send feedback ack: ${sendErr?.message || String(sendErr)}`,
                 );
               }
+            }
+            const actionResult = await handleCardAction({
+              analysis,
+              cfg,
+              accountId: account.accountId,
+              config,
+              log: ctx.log,
+            });
+            if (!actionResult.handled && analysis.actionId && analysis.actionId !== "feedback_up" && analysis.actionId !== "feedback_down") {
+              ctx.log?.debug?.(
+                `[${account.accountId}] [DingTalk][CardCallback] Unhandled actionId=${analysis.actionId}`,
+              );
             }
           } catch (error: any) {
             ctx.log?.error?.(
@@ -925,7 +998,7 @@ export const dingtalkPlugin: DingTalkChannelPlugin = {
             // Clear stale in-flight locks for this account on disconnect.
             // DingTalk will redeliver unacknowledged messages on reconnect; without
             // this cleanup the redelivered messages would be silently skipped forever.
-            const robotKey = config.robotCode || config.clientId || account.accountId;
+            const robotKey = resolveRobotCode(config) || account.accountId;
             let cleared = 0;
             for (const key of processingDedupKeys.keys()) {
               if (key.startsWith(`${robotKey}:`)) {

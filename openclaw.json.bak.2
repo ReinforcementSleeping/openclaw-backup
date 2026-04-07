@@ -1,7 +1,7 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-04-04T04:10:44.755Z"
+    "lastTouchedAt": "2026-04-04T04:10:47.625Z"
   },
   "env": {
     "shellEnv": {
@@ -142,6 +142,16 @@
   },
   "tools": {
     "profile": "full",
+    "alsoAllow": [
+      "traeclaw",
+      "trae-ide",
+      "trae_status",
+      "trae_update_self",
+      "trae_new_chat",
+      "trae_open_project",
+      "trae_switch_mode",
+      "trae_delegate"
+    ],
     "sessions": {
       "visibility": "all"
     }
@@ -302,7 +312,8 @@
           "autoStart": true,
           "quickstartCommand": "/Users/lynch/.openclaw/tools/TraeClaw/start-traeapi.command",
           "quickstartCwd": "/Users/lynch/.openclaw/tools/TraeClaw"
-        }
+        },
+        "loadPath": "/Users/lynch/.openclaw/tools/TraeClaw/integrations/openclaw-trae-plugin"
       }
     }
   }

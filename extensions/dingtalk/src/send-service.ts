@@ -4,20 +4,25 @@ import { getAccessToken } from "./auth";
 import {
   isCardInTerminalState,
   sendProactiveCardText,
-  streamAICard,
 } from "./card-service";
-import { stripTargetPrefix } from "./config";
+import { resolveRobotCode, stripTargetPrefix } from "./config";
 import { getLogger } from "./logger-context";
 import { getVoiceDurationMs, uploadMedia as uploadMediaUtil } from "./media-utils";
 import { convertMarkdownTablesToPlainText, detectMarkdownAndExtractTitle } from "./message-utils";
+import {
+  DEFAULT_MESSAGE_CONTEXT_TTL_DAYS,
+  DEFAULT_OUTBOUND_SENDER,
+  inferConversationChatType,
+  upsertOutboundMessageContext,
+} from "./message-context-store";
 import { resolveOriginalPeerId } from "./peer-id-registry";
-import { appendOutboundToQuoteJournal, appendProactiveOutboundJournal } from "./quote-journal";
 import {
   deleteProactiveRiskObservation,
   getProactiveRiskObservation,
   recordProactiveRiskObservation,
 } from "./proactive-risk-registry";
 import { formatDingTalkErrorPayloadLog, getProxyBypassOption } from "./utils";
+import type { UploadMediaResult } from "./media-utils";
 import type {
   AICardInstance,
   AxiosResponse,
@@ -25,10 +30,10 @@ import type {
   DingTalkTrackingMetadata,
   Logger,
   ProactiveMessagePayload,
+  QuotedRef,
   SendMessageOptions,
   SessionWebhookResponse,
 } from "./types";
-import { AICardStatus } from "./types";
 
 export { detectMediaTypeFromExtension } from "./media-utils";
 
@@ -38,44 +43,89 @@ function isTrackingResult(result: ProactiveTextSendResult): result is { tracking
   return "tracking" in result;
 }
 
-function extractOutboundMessageId(payload: unknown): string | undefined {
+function firstTrimmedString(...candidates: unknown[]): string | undefined {
+  for (const candidate of candidates) {
+    if (typeof candidate === "string" && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+  return undefined;
+}
+
+function extractOutboundDeliveryMetadata(payload: unknown): {
+  messageId?: string;
+  processQueryKey?: string;
+  outTrackId?: string;
+  cardInstanceId?: string;
+} {
   if (!payload || typeof payload !== "object") {
-    return undefined;
+    return {};
   }
   const data = payload as Record<string, unknown>;
   const tracking =
     data.tracking && typeof data.tracking === "object"
       ? (data.tracking as Record<string, unknown>)
       : undefined;
-  const value =
-    data.processQueryKey ??
-    data.messageId ??
-    data.msgid ??
-    tracking?.processQueryKey ??
-    tracking?.messageId ??
-    tracking?.msgid ??
-    tracking?.outTrackId;
-  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+  const messageId = firstTrimmedString(data.messageId, data.msgid, tracking?.messageId, tracking?.msgid);
+  const processQueryKey = firstTrimmedString(data.processQueryKey, tracking?.processQueryKey);
+  const outTrackId = firstTrimmedString(data.outTrackId, tracking?.outTrackId);
+  const cardInstanceId = firstTrimmedString(data.cardInstanceId, tracking?.cardInstanceId);
+  return { messageId, processQueryKey, outTrackId, cardInstanceId };
 }
 
-function composeCardContentForAppend(previous: string | undefined, incoming: string): string {
-  const prev = previous ?? "";
-  if (!prev) {
-    return incoming;
+function persistOutboundMessageContext(params: {
+  storePath?: string;
+  accountId?: string;
+  conversationId: string;
+  text?: string;
+  messageType?: string;
+  createdAt?: number;
+  quotedRef?: QuotedRef;
+  log?: Logger;
+  senderId?: string;
+  senderName?: string;
+  chatType?: "direct" | "group";
+  delivery: {
+    messageId?: string;
+    processQueryKey?: string;
+    outTrackId?: string;
+    cardInstanceId?: string;
+    kind?: "session" | "proactive-text" | "proactive-card" | "proactive-media";
+  };
+}): void {
+  if (!params.storePath || !params.accountId) {
+    return;
   }
-  if (!incoming) {
-    return prev;
+  params.log?.debug?.(
+    `[DingTalk][QuotedRef][Persist] direction=outbound scope=${params.conversationId} ` +
+    `messageType=${params.messageType || "(none)"} processQueryKey=${params.delivery.processQueryKey || "(none)"} ` +
+    `messageId=${params.delivery.messageId || "(none)"} quotedRef=${params.quotedRef ? JSON.stringify(params.quotedRef) : "(none)"}`,
+  );
+  upsertOutboundMessageContext({
+    storePath: params.storePath,
+    accountId: params.accountId,
+    conversationId: params.conversationId,
+    createdAt: params.createdAt ?? Date.now(),
+    text: params.text,
+    messageType: params.messageType,
+    senderId: params.senderId,
+    senderName: params.senderName,
+    chatType: params.chatType,
+    ttlMs: DEFAULT_MESSAGE_CONTEXT_TTL_DAYS * 24 * 60 * 60 * 1000,
+    topic: null,
+    quotedRef: params.quotedRef,
+    delivery: params.delivery,
+  });
+}
+
+function buildPersistedOutboundText(text: string, options: SendMessageOptions): string {
+  if (text) {
+    return text;
   }
-  if (incoming.startsWith(prev)) {
-    return incoming;
+  if (options.mediaPath && options.mediaType) {
+    return `[media:${options.mediaType}] ${options.mediaPath}`;
   }
-  if (prev.endsWith(incoming)) {
-    return prev;
-  }
-  if (prev.endsWith("\n") || incoming.startsWith("\n")) {
-    return `${prev}${incoming}`;
-  }
-  return `${prev}${incoming}`;
+  return text;
 }
 
 const DINGTALK_TEXT_CHUNK_LIMIT = 3800;
@@ -149,8 +199,9 @@ export async function uploadMedia(
   mediaPath: string,
   mediaType: "image" | "voice" | "video" | "file",
   log?: Logger,
-): Promise<string | null> {
-  return uploadMediaUtil(config, mediaPath, mediaType, getAccessToken, log);
+  options?: { mediaLocalRoots?: string[] },
+): Promise<UploadMediaResult | null> {
+  return uploadMediaUtil(config, mediaPath, mediaType, getAccessToken, log, options);
 }
 
 export async function sendProactiveTextOrMarkdown(
@@ -174,7 +225,7 @@ export async function sendProactiveTextOrMarkdown(
 
   // In card mode, use card API to avoid oToMessages/batchSend permission requirement.
   const messageType = config.messageType || "markdown";
-  if (messageType === "card" && config.cardTemplateId) {
+  if (messageType === "card" && !options.forceMarkdown) {
     log?.debug?.(
       `[DingTalk] Using card API for proactive message to user ${resolvedTarget}${proactiveRiskTag}`,
     );
@@ -201,7 +252,7 @@ export async function sendProactiveTextOrMarkdown(
     ? "https://api.dingtalk.com/v1.0/robot/groupMessages/send"
     : "https://api.dingtalk.com/v1.0/robot/oToMessages/batchSend";
 
-  const normalizedText = convertMarkdownTablesToPlainText(text);
+  const normalizedText = config.convertMarkdownTables !== false ? convertMarkdownTablesToPlainText(text) : text;
   const { useMarkdown, title } = detectMarkdownAndExtractTitle(normalizedText, options, "OpenClaw 提醒");
 
   log?.debug?.(
@@ -215,7 +266,7 @@ export async function sendProactiveTextOrMarkdown(
     : JSON.stringify({ content: normalizedText });
 
   const payload: ProactiveMessagePayload = {
-    robotCode: config.robotCode || config.clientId,
+    robotCode: resolveRobotCode(config),
     msgKey,
     msgParam,
   };
@@ -287,10 +338,13 @@ export async function sendProactiveMedia(
 
   try {
     // Upload first, then send by media_id.
-    const mediaId = await uploadMedia(config, mediaPath, mediaType, log);
-    if (!mediaId) {
+    const uploadResult = await uploadMedia(config, mediaPath, mediaType, log, {
+      mediaLocalRoots: options.mediaLocalRoots,
+    });
+    if (!uploadResult) {
       return { ok: false, error: "Failed to upload media" };
     }
+    const { mediaId, buffer } = uploadResult;
 
     const token = await getAccessToken(config, log);
     const { targetId, isExplicitUser } = stripTargetPrefix(target);
@@ -311,7 +365,7 @@ export async function sendProactiveMedia(
       msgParam = JSON.stringify({ photoURL: mediaId });
     } else if (mediaType === "voice") {
       msgKey = "sampleAudio";
-      const durationMs = await getVoiceDurationMs(mediaPath, mediaType, log);
+      const durationMs = await getVoiceDurationMs(mediaPath, mediaType, log, { preReadBuffer: buffer });
       msgParam = JSON.stringify({ mediaId, duration: String(durationMs) });
     } else {
       // sampleVideo requires picMediaId; fallback to sampleFile for broader compatibility.
@@ -323,7 +377,7 @@ export async function sendProactiveMedia(
     }
 
     const payload: ProactiveMessagePayload = {
-      robotCode: config.robotCode || config.clientId,
+      robotCode: resolveRobotCode(config),
       msgKey,
       msgParam,
     };
@@ -349,18 +403,23 @@ export async function sendProactiveMedia(
       deleteProactiveRiskObservation(options.accountId, resolvedTarget);
     }
 
-    const messageId = extractOutboundMessageId(result.data);
-    if (options.storePath && options.accountId) {
-      await appendProactiveOutboundJournal({
-        storePath: options.storePath,
-        accountId: options.accountId,
-        conversationId: options.conversationId || resolvedTarget,
-        messageId,
-        text: `[media:${mediaType}] ${mediaPath}`,
-        messageType: "outbound-proactive-media",
-        log,
-      });
-    }
+    const delivery = extractOutboundDeliveryMetadata(result.data);
+    const messageId = delivery.messageId || delivery.processQueryKey || delivery.outTrackId;
+    persistOutboundMessageContext({
+      storePath: options.storePath,
+      accountId: options.accountId,
+      conversationId: options.conversationId || resolvedTarget,
+      text: `[media:${mediaType}] ${mediaPath}`,
+      messageType: "outbound-proactive-media",
+      quotedRef: options.quotedRef,
+      log,
+      ...DEFAULT_OUTBOUND_SENDER,
+      chatType: inferConversationChatType(options.conversationId || resolvedTarget),
+      delivery: {
+        ...delivery,
+        kind: "proactive-media",
+      },
+    });
     return { ok: true, data: result.data, messageId };
   } catch (err: any) {
     log?.error?.(`[DingTalk] Failed to send proactive media: ${err.message}`);
@@ -390,10 +449,12 @@ export async function sendProactiveMedia(
     }
 
     // Fallback: ensure user still gets a usable link/path text.
+    const fallbackDisplayText = `📎 媒体发送失败，兜底链接/路径：${mediaPath}`;
+    const fallbackPersistedText = `媒体发送失败，兜底链接/路径：${mediaPath}`;
     const fallback = await sendProactiveTextOrMarkdown(
       config,
       target,
-      `📎 媒体发送失败，兜底链接/路径：${mediaPath}`,
+      fallbackDisplayText,
       options,
     ).catch((fallbackErr: any) => ({ __fallbackError: fallbackErr }));
 
@@ -401,7 +462,25 @@ export async function sendProactiveMedia(
       return { ok: false, error: `${err.message}; fallback failed: ${(fallback as any).__fallbackError?.message || "unknown"}` };
     }
 
-    return { ok: true, data: fallback, messageId: (fallback as any)?.processQueryKey || (fallback as any)?.messageId };
+    const fallbackDelivery = extractOutboundDeliveryMetadata(fallback);
+    const fallbackMessageId =
+      fallbackDelivery.messageId || fallbackDelivery.processQueryKey || fallbackDelivery.outTrackId;
+    persistOutboundMessageContext({
+      storePath: options.storePath,
+      accountId: options.accountId,
+      conversationId: options.conversationId || normalizedTarget,
+      text: fallbackPersistedText,
+      messageType: "outbound-proactive-fallback",
+      quotedRef: options.quotedRef,
+      log,
+      ...DEFAULT_OUTBOUND_SENDER,
+      chatType: inferConversationChatType(options.conversationId || normalizedTarget),
+      delivery: {
+        ...fallbackDelivery,
+        kind: isTrackingResult(fallback as ProactiveTextSendResult) ? "proactive-card" : "proactive-text",
+      },
+    });
+    return { ok: true, data: fallback, messageId: fallbackMessageId };
   }
 }
 
@@ -416,14 +495,17 @@ export async function sendBySession(
 
   // Session webhook supports native media messages; prefer that when media info is available.
   if (options.mediaPath && options.mediaType) {
-    const mediaId = await uploadMedia(config, options.mediaPath, options.mediaType, log);
-    if (mediaId) {
+    const uploadResult = await uploadMedia(config, options.mediaPath, options.mediaType, log, {
+      mediaLocalRoots: options.mediaLocalRoots,
+    });
+    if (uploadResult) {
+      const { mediaId, buffer } = uploadResult;
       let body: any;
 
       if (options.mediaType === "image") {
         body = { msgtype: "image", image: { media_id: mediaId } };
       } else if (options.mediaType === "voice") {
-        const durationMs = await getVoiceDurationMs(options.mediaPath, options.mediaType, log);
+        const durationMs = await getVoiceDurationMs(options.mediaPath, options.mediaType, log, { preReadBuffer: buffer });
         body = { msgtype: "voice", voice: { media_id: mediaId, duration: String(durationMs) } };
       } else if (options.mediaType === "video") {
         body = { msgtype: "video", video: { media_id: mediaId } };
@@ -449,7 +531,7 @@ export async function sendBySession(
   }
 
   // Fallback to text/markdown reply payload.
-  const normalizedText = convertMarkdownTablesToPlainText(text);
+  const normalizedText = config.convertMarkdownTables !== false ? convertMarkdownTablesToPlainText(text) : text;
   const { useMarkdown, title } = detectMarkdownAndExtractTitle(normalizedText, options, "Clawdbot 消息");
   const chunks = splitMarkdownChunks(normalizedText, DINGTALK_TEXT_CHUNK_LIMIT);
 
@@ -492,7 +574,7 @@ export async function sendMessage(
     const messageType = config.messageType || "markdown";
     const log = options.log || getLogger();
 
-    if (messageType === "card" && options.card) {
+    if (messageType === "card" && options.card && !options.forceMarkdown) {
       const card = options.card;
       if (isCardInTerminalState(card.state)) {
         if (options.sessionWebhook) {
@@ -500,64 +582,62 @@ export async function sendMessage(
           return { ok: true };
         }
 
-        if (config.cardTemplateId) {
-          const proactiveResult = await sendProactiveCardText(config, conversationId, text, log);
-          if (!proactiveResult.ok) {
-            return { ok: false, error: proactiveResult.error || "Card send failed" };
-          }
-          return {
-            ok: true,
-            tracking: {
-              processQueryKey: proactiveResult.processQueryKey,
-              outTrackId: proactiveResult.outTrackId,
-              cardInstanceId: proactiveResult.cardInstanceId,
-            },
-          };
+        const proactiveResult = await sendProactiveCardText(config, conversationId, text, log);
+        if (!proactiveResult.ok) {
+          return { ok: false, error: proactiveResult.error || "Card send failed" };
         }
-      } else if (options.cardUpdateMode === "append") {
-        try {
-          const nextContent = composeCardContentForAppend(card.lastStreamedContent, text);
-          await streamAICard(card, nextContent, false, log);
-          return { ok: true };
-        } catch (err: any) {
-          log?.warn?.(`[DingTalk] AI Card streaming failed: ${err.message}`);
-          card.state = AICardStatus.FAILED;
-          card.lastUpdated = Date.now();
-          return { ok: false, error: err.message };
-        }
+        return {
+          ok: true,
+          tracking: {
+            processQueryKey: proactiveResult.processQueryKey,
+            outTrackId: proactiveResult.outTrackId,
+            cardInstanceId: proactiveResult.cardInstanceId,
+          },
+        };
       }
     }
 
     if (options.sessionWebhook) {
       const data = await sendBySession(config, options.sessionWebhook, text, options);
-      const messageId = extractOutboundMessageId(data);
-      if (options.storePath && options.accountId) {
-        await appendOutboundToQuoteJournal({
-          storePath: options.storePath,
-          accountId: options.accountId,
-          conversationId: options.conversationId || conversationId,
-          messageId,
-          text,
-          messageType: "outbound",
-          log,
-        });
-      }
+      const delivery = extractOutboundDeliveryMetadata(data);
+      const messageId = delivery.messageId || delivery.processQueryKey || delivery.outTrackId;
+      const persistedText = buildPersistedOutboundText(text, options);
+      persistOutboundMessageContext({
+        storePath: options.storePath,
+        accountId: options.accountId,
+        conversationId: options.conversationId || conversationId,
+        text: persistedText,
+        messageType: options.mediaPath && options.mediaType ? "outbound-media" : "outbound",
+        quotedRef: options.quotedRef,
+        log,
+        ...DEFAULT_OUTBOUND_SENDER,
+        chatType: inferConversationChatType(options.conversationId || conversationId),
+        delivery: {
+          ...delivery,
+          kind: "session",
+        },
+      });
       return { ok: true, data, messageId };
     }
 
     const result = await sendProactiveTextOrMarkdown(config, conversationId, text, options);
-    const messageId = extractOutboundMessageId(result);
-    if (options.storePath && options.accountId) {
-      await appendProactiveOutboundJournal({
-        storePath: options.storePath,
-        accountId: options.accountId,
-        conversationId: options.conversationId || conversationId,
-        messageId,
-        text,
-        messageType: "outbound-proactive",
-        log,
-      });
-    }
+    const delivery = extractOutboundDeliveryMetadata(result);
+    const messageId = delivery.messageId || delivery.processQueryKey || delivery.outTrackId;
+    persistOutboundMessageContext({
+      storePath: options.storePath,
+      accountId: options.accountId,
+      conversationId: options.conversationId || conversationId,
+      text,
+      messageType: "outbound-proactive",
+      quotedRef: options.quotedRef,
+      log,
+      ...DEFAULT_OUTBOUND_SENDER,
+      chatType: inferConversationChatType(options.conversationId || conversationId),
+      delivery: {
+        ...delivery,
+        kind: isTrackingResult(result) ? "proactive-card" : "proactive-text",
+      },
+    });
     if (isTrackingResult(result)) {
       return { ok: true, tracking: result.tracking };
     }

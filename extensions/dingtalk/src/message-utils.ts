@@ -1,4 +1,5 @@
-import type { DingTalkInboundMessage, MessageContent, QuotedInfo, SendMessageOptions } from "./types";
+import type { AtMention, DingTalkInboundMessage, MessageContent, QuotedInfo, SendMessageOptions } from "./types";
+
 
 interface DingTalkDocMeta {
   spaceId: string;
@@ -97,6 +98,148 @@ function extractRichTextQuoteParts(
   };
 }
 
+function trimString(value: string | undefined): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
+function buildQuotedMessageTypePlaceholder(messageType: string | undefined, fileName?: string): string | undefined {
+  switch (messageType) {
+    case "text":
+      return undefined;
+    case "picture":
+      return "<media:image>";
+    case "audio":
+      return "<media:voice>";
+    case "video":
+      return "<media:video>";
+    case "file":
+    case "unknownMsgType":
+      return fileName ? `<media:file> (${fileName})` : "<media:file>";
+    case "interactiveCardFile":
+      return "[钉钉文档]";
+    case "interactiveCard":
+      return "[interactiveCard消息]";
+    case "richText":
+      return "[富文本消息]";
+    default:
+      return messageType ? `[Quoted ${messageType}]` : undefined;
+  }
+}
+
+function buildLegacyQuoteMessagePreview(message: DingTalkInboundMessage["quoteMessage"]): {
+  previewText?: string;
+  previewMessageType?: string;
+  previewSenderId?: string;
+} {
+  const previewMessageType = trimString(message?.msgtype);
+  return {
+    previewText:
+      trimString(message?.text?.content) ||
+      buildQuotedMessageTypePlaceholder(previewMessageType),
+    previewMessageType,
+    previewSenderId: trimString(message?.senderId),
+  };
+}
+
+function buildRepliedMessagePreview(params: {
+  data: DingTalkInboundMessage;
+  repliedMsg: NonNullable<NonNullable<DingTalkInboundMessage["text"]>["repliedMsg"]>;
+}): Partial<QuotedInfo> {
+  const { data, repliedMsg } = params;
+  const repliedMsgType = trimString(repliedMsg.msgType);
+  const content = repliedMsg.content;
+  const fileName = trimString(content?.fileName);
+  const richTextQuote = extractRichTextQuoteParts(content?.richText);
+  const docMeta = parseBizCustomActionUrl(content?.biz_custom_action_url);
+
+  if (repliedMsgType === "picture") {
+    return {
+      mediaDownloadCode: trimString(content?.downloadCode),
+      mediaType: trimString(content?.downloadCode) ? "image" : undefined,
+      previewText: buildQuotedMessageTypePlaceholder("picture"),
+      previewMessageType: "picture",
+      previewSenderId: trimString(repliedMsg.senderId),
+    };
+  }
+
+  if (repliedMsgType === "richText") {
+    return {
+      mediaDownloadCode: richTextQuote?.pictureDownloadCode,
+      mediaType: richTextQuote?.pictureDownloadCode ? "image" : undefined,
+      previewText:
+        trimString(richTextQuote?.summary) || buildQuotedMessageTypePlaceholder("richText"),
+      previewMessageType: "richText",
+      previewSenderId: trimString(repliedMsg.senderId),
+    };
+  }
+
+  if (repliedMsgType === "unknownMsgType") {
+    return {
+      isQuotedFile: true,
+      fileCreatedAt: repliedMsg.createdAt,
+      previewText: buildQuotedMessageTypePlaceholder("unknownMsgType", fileName),
+      previewMessageType: "unknownMsgType",
+      previewFileName: fileName,
+      previewSenderId: trimString(repliedMsg.senderId),
+    };
+  }
+
+  if (repliedMsgType === "file" || repliedMsgType === "audio" || repliedMsgType === "video") {
+    const hasFileName = repliedMsgType === "file";
+    return {
+      isQuotedFile: true,
+      fileCreatedAt: repliedMsg.createdAt,
+      previewText: buildQuotedMessageTypePlaceholder(repliedMsgType, hasFileName ? fileName : undefined),
+      previewMessageType: repliedMsgType,
+      ...(hasFileName ? { previewFileName: fileName } : {}),
+      previewSenderId: trimString(repliedMsg.senderId),
+    };
+  }
+
+  if (repliedMsgType === "interactiveCard") {
+    const isBotCard = repliedMsg.senderId === data.chatbotUserId;
+    if (isBotCard) {
+      return {
+        isQuotedCard: true,
+        cardCreatedAt: repliedMsg.createdAt,
+        processQueryKey: trimString(data.originalProcessQueryKey),
+        previewText:
+          trimString(content?.text) || buildQuotedMessageTypePlaceholder("interactiveCard"),
+        previewMessageType: "interactiveCard",
+        previewSenderId: trimString(repliedMsg.senderId),
+      };
+    }
+
+    return {
+      isQuotedDocCard: true,
+      fileCreatedAt: repliedMsg.createdAt,
+      previewText:
+        trimString(content?.text) ||
+        buildQuotedMessageTypePlaceholder(docMeta ? "interactiveCardFile" : "interactiveCard"),
+      previewMessageType: docMeta ? "interactiveCardFile" : "interactiveCard",
+      previewSenderId: trimString(repliedMsg.senderId),
+    };
+  }
+
+  const textPreview =
+    trimString(content?.text) ||
+    trimString(richTextQuote?.summary) ||
+    buildQuotedMessageTypePlaceholder(repliedMsgType, fileName);
+
+  return {
+    mediaDownloadCode: richTextQuote?.pictureDownloadCode,
+    mediaType: richTextQuote?.pictureDownloadCode ? "image" : undefined,
+    previewText: textPreview,
+    previewMessageType: repliedMsgType,
+    previewFileName: fileName,
+    previewSenderId: trimString(repliedMsg.senderId),
+  };
+}
+
 /**
  * Auto-detect markdown usage and derive message title.
  * Title extraction follows DingTalk markdown card title constraints.
@@ -150,7 +293,7 @@ function parseMarkdownTableRow(line: string): string[] {
 
 function renderMarkdownTable(lines: string[]): string {
   const rows = lines.map(parseMarkdownTableRow).filter((cells) => cells.length > 0);
-  return rows.map((cells) => cells.join(" | ")).join("\n");
+  return rows.map((cells) => cells.join(" | ")).join("  \n");
 }
 
 export function convertMarkdownTablesToPlainText(text: string): string {
@@ -193,49 +336,58 @@ export function convertMarkdownTablesToPlainText(text: string): string {
 
 export function extractMessageContent(data: DingTalkInboundMessage): MessageContent {
   const msgtype = data.msgtype || "text";
+  const atMentions: AtMention[] = [];
+
+  // 提取通过 @picker 选中的真实用户的 dingtalkId
+  // 这些是真实钉钉用户，不包含 agent 名（如 @frontend）
+  const atUserDingtalkIds = data.atUsers?.map((u) => u.dingtalkId).filter(Boolean);
 
   const formatQuotedContent = (): QuotedInfo | null => {
     const textField = data.text;
 
     if (textField?.isReplyMsg && textField?.repliedMsg) {
       const repliedMsg = textField.repliedMsg;
-      const repliedMsgType = repliedMsg.msgType;
+      const repliedMsgType = trimString(repliedMsg.msgType);
       const content = repliedMsg.content;
-
-      if (repliedMsgType === "text" && content?.text?.trim()) {
-        return { prefix: `[引用消息: "${content.text.trim()}"]\n\n` };
-      }
+      const repliedMsgId = trimString(repliedMsg.msgId) || trimString(data.originalMsgId);
+      const repliedPreview = buildRepliedMessagePreview({ data, repliedMsg });
 
       if (repliedMsgType === "picture" && content?.downloadCode) {
         return {
-          prefix: "[引用图片]\n\n",
           mediaDownloadCode: content.downloadCode,
           mediaType: "image",
+          ...repliedPreview,
         };
       }
 
       if (repliedMsgType === "richText") {
         const richTextQuote = extractRichTextQuoteParts(content?.richText);
         if (richTextQuote) {
-          const quoteImageCount = richTextQuote.pictureDownloadCodes?.length || 0;
-          const prefix =
-            richTextQuote.summary && richTextQuote.summary !== "[图片]"
-              ? `[引用消息: "${richTextQuote.summary}"]${quoteImageCount > 1 ? ` [含${quoteImageCount}张引用图片]` : ""}\n\n`
-              : "[引用图片]\n\n";
           return {
-            prefix,
+            msgId: repliedMsgId,
             mediaDownloadCode: richTextQuote.pictureDownloadCode,
             mediaType: richTextQuote.pictureDownloadCode ? "image" : undefined,
+            ...repliedPreview,
           };
         }
       }
 
       if (repliedMsgType === "unknownMsgType") {
         return {
-          prefix: "[引用文件]\n\n",
           isQuotedFile: true,
           fileCreatedAt: repliedMsg.createdAt,
-          msgId: repliedMsg.msgId,
+          msgId: repliedMsgId,
+          ...repliedPreview,
+        };
+      }
+
+      if (repliedMsgType === "file" || repliedMsgType === "audio" || repliedMsgType === "video") {
+        return {
+          isQuotedFile: true,
+          fileCreatedAt: repliedMsg.createdAt,
+          fileDownloadCode: trimString(content?.downloadCode),
+          msgId: repliedMsgId,
+          ...repliedPreview,
         };
       }
 
@@ -243,40 +395,39 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
         const isBotCard = repliedMsg.senderId === data.chatbotUserId;
         if (isBotCard) {
           return {
-            prefix: "[引用了机器人的回复]\n\n",
             isQuotedCard: true,
             cardCreatedAt: repliedMsg.createdAt,
             processQueryKey: data.originalProcessQueryKey,
-            msgId: repliedMsg.msgId,
+            msgId: repliedMsgId,
+            ...repliedPreview,
           };
         }
 
         return {
-          prefix: "[引用了钉钉文档]\n\n",
           isQuotedDocCard: true,
           fileCreatedAt: repliedMsg.createdAt,
-          msgId: repliedMsg.msgId,
+          msgId: repliedMsgId,
+          ...repliedPreview,
         };
       }
 
-      // Has msgType but not one we handle — generic fallback.
-      if (repliedMsgType) {
-        const idPart = repliedMsg.msgId ? `，原消息ID: ${repliedMsg.msgId}` : "";
-        return { prefix: `[引用消息不可见: msgType=${repliedMsgType}${idPart}]\n\n` };
+      if (repliedMsgType && repliedMsgId) {
+        return { msgId: repliedMsgId, ...repliedPreview };
       }
 
       // No msgType — backward compat: extract text or richText from content.
       if (content?.text?.trim()) {
-        return { prefix: `[引用消息: "${content.text.trim()}"]\n\n` };
+        return repliedMsgId ? { msgId: repliedMsgId, ...repliedPreview } : null;
       }
 
       if (content?.richText && Array.isArray(content.richText)) {
         const richTextQuote = extractRichTextQuoteParts(content.richText);
-        if (richTextQuote?.summary) {
+        if (richTextQuote) {
           return {
-            prefix: `[引用消息: "${richTextQuote.summary}"]\n\n`,
+            msgId: repliedMsgId,
             mediaDownloadCode: richTextQuote.pictureDownloadCode,
             mediaType: richTextQuote.pictureDownloadCode ? "image" : undefined,
+            ...repliedPreview,
           };
         }
       }
@@ -284,30 +435,42 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
 
     if (textField?.isReplyMsg && !textField?.repliedMsg && data.originalMsgId) {
       return {
-        prefix: `[这是一条引用消息，原消息ID: ${data.originalMsgId}]\n\n`,
         msgId: data.originalMsgId,
       };
     }
 
     if (data.quoteMessage) {
-      const quoteText = data.quoteMessage.text?.content?.trim() || "";
-      if (quoteText) {
-        return { prefix: `[引用消息: "${quoteText}"]\n\n` };
+      if (data.quoteMessage.msgId) {
+        return {
+          msgId: data.quoteMessage.msgId,
+          ...buildLegacyQuoteMessagePreview(data.quoteMessage),
+        };
       }
-    }
-
-    if (data.content?.quoteContent) {
-      return { prefix: `[引用消息: "${data.content.quoteContent}"]\n\n` };
     }
 
     return null;
   };
 
   const quoted = formatQuotedContent();
-  const quotedPrefix = quoted?.prefix || "";
 
   if (msgtype === "text") {
-    return { text: quotedPrefix + (data.text?.content?.trim() || ""), messageType: "text", quoted: quoted ?? undefined };
+    const textContent = data.text?.content?.trim() || "";
+
+    // Strip quoted prefix before extracting @mentions to avoid matching @names inside quotes.
+    const textForAtExtraction = textContent.replace(/^\[引用[^\]]*\]\s*/, "");
+    // Match @name but exclude email-like patterns (user@domain.com) and emoji (@_@).
+    const atMatches = textForAtExtraction.matchAll(/(?<!\w)@([^\s@.]+)(?!\.\w)/g);
+    for (const match of atMatches) {
+      atMentions.push({ name: match[1].trim() });
+    }
+
+    return {
+      text: textContent || quoted?.previewText || "",
+      messageType: "text",
+      quoted: quoted ?? undefined,
+      atMentions,
+      atUserDingtalkIds,
+    };
   }
 
   if (msgtype === "richText") {
@@ -321,6 +484,11 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
       }
       if (part.type === "at" && part.atName) {
         text += `@${part.atName} `;
+        // 提取 @ 提及信息，包括 atUserId
+        atMentions.push({
+          name: part.atName.trim(),
+          userId: part.atUserId,
+        });
       }
       if (part.type === "picture" && part.downloadCode) {
         pictureDownloadCodes.push(part.downloadCode);
@@ -329,14 +497,15 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
     const uniquePictureDownloadCodes = [...new Set(pictureDownloadCodes)];
     const pictureDownloadCode = uniquePictureDownloadCodes[0];
     return {
-      text:
-        quotedPrefix + (text.trim() || (pictureDownloadCode ? "<media:image>" : "[富文本消息]")),
+      text: text.trim() || (pictureDownloadCode ? "<media:image>" : "[富文本消息]"),
       mediaPath: pictureDownloadCode,
       mediaPaths: uniquePictureDownloadCodes.length > 0 ? uniquePictureDownloadCodes : undefined,
       mediaType: pictureDownloadCode ? "image" : undefined,
       mediaTypes: uniquePictureDownloadCodes.length > 0 ? uniquePictureDownloadCodes.map(() => "image") : undefined,
       messageType: "richText",
       quoted: quoted ?? undefined,
+      atMentions,
+      atUserDingtalkIds,
     };
   }
 
@@ -346,6 +515,8 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
       mediaPath: data.content?.downloadCode,
       mediaType: "image",
       messageType: "picture",
+      atMentions,
+      atUserDingtalkIds,
     };
   }
 
@@ -355,6 +526,8 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
       mediaPath: data.content?.downloadCode,
       mediaType: "audio",
       messageType: "audio",
+      atMentions,
+      atUserDingtalkIds,
     };
   }
 
@@ -364,6 +537,8 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
       mediaPath: data.content?.downloadCode,
       mediaType: "video",
       messageType: "video",
+      atMentions,
+      atUserDingtalkIds,
     };
   }
 
@@ -373,6 +548,8 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
       mediaPath: data.content?.downloadCode,
       mediaType: "file",
       messageType: "file",
+      atMentions,
+      atUserDingtalkIds,
     };
   }
 
@@ -385,12 +562,16 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
         docSpaceId: docMeta.spaceId,
         docFileId: docMeta.fileId,
         quoted: quoted ?? undefined,
+        atMentions,
+        atUserDingtalkIds,
       };
     }
     return {
       text: data.text?.content?.trim() || "[interactiveCard消息]",
       messageType: msgtype,
       quoted: quoted ?? undefined,
+      atMentions,
+      atUserDingtalkIds,
     };
   }
   if (msgtype === "chatRecord") {
@@ -406,13 +587,33 @@ export function extractMessageContent(data: DingTalkInboundMessage): MessageCont
         text: "[系统提示] 没有读到引用记录（chatRecord 为空）。请改用逐条转发、复制原文，或重新转发非空聊天记录。",
         messageType: "chatRecord",
         quoted: quoted ?? undefined,
+        atMentions,
+        atUserDingtalkIds,
       };
     }
     if (summary) {
-      return { text: `[聊天记录摘要] ${summary}`, messageType: "chatRecord", quoted: quoted ?? undefined };
+      return {
+        text: `[聊天记录摘要] ${summary}`,
+        messageType: "chatRecord",
+        quoted: quoted ?? undefined,
+        atMentions,
+        atUserDingtalkIds,
+      };
     }
-    return { text: "[chatRecord消息: 无可读内容]", messageType: "chatRecord", quoted: quoted ?? undefined };
+    return {
+      text: "[chatRecord消息: 无可读内容]",
+      messageType: "chatRecord",
+      quoted: quoted ?? undefined,
+      atMentions,
+      atUserDingtalkIds,
+    };
   }
 
-  return { text: data.text?.content?.trim() || `[${msgtype}消息]`, messageType: msgtype, quoted: quoted ?? undefined };
+  return {
+    text: data.text?.content?.trim() || `[${msgtype}消息]`,
+    messageType: msgtype,
+    quoted: quoted ?? undefined,
+    atMentions,
+    atUserDingtalkIds,
+  };
 }

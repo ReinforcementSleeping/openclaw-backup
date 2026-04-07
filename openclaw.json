@@ -1,7 +1,7 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.13",
-    "lastTouchedAt": "2026-04-04T04:17:34.324Z"
+    "lastTouchedVersion": "2026.4.1",
+    "lastTouchedAt": "2026-04-07T05:06:49.875Z"
   },
   "env": {
     "shellEnv": {
@@ -154,6 +154,10 @@
     ],
     "sessions": {
       "visibility": "all"
+    },
+    "exec": {
+      "security": "full",
+      "ask": "off"
     }
   },
   "bindings": [
@@ -298,7 +302,48 @@
     "allow": [
       "minimax-portal-auth",
       "traeclaw",
-      "openclaw-lark"
+      "openclaw-lark",
+      "amazon-bedrock",
+      "anthropic",
+      "anthropic-vertex",
+      "browser",
+      "byteplus",
+      "chutes",
+      "cloudflare-ai-gateway",
+      "copilot-proxy",
+      "deepseek",
+      "device-pair",
+      "fal",
+      "github-copilot",
+      "google",
+      "huggingface",
+      "kilocode",
+      "kimi",
+      "litellm",
+      "microsoft-foundry",
+      "minimax",
+      "mistral",
+      "modelstudio",
+      "moonshot",
+      "nvidia",
+      "ollama",
+      "openai",
+      "opencode",
+      "opencode-go",
+      "openrouter",
+      "phone-control",
+      "qianfan",
+      "sglang",
+      "synthetic",
+      "talk-voice",
+      "together",
+      "venice",
+      "vercel-ai-gateway",
+      "vllm",
+      "volcengine",
+      "xai",
+      "xiaomi",
+      "zai"
     ],
     "entries": {
       "minimax-portal-auth": {
@@ -321,6 +366,12 @@
           "quickstartCommand": "/Users/lynch/.openclaw/tools/TraeClaw/start-traeapi.command",
           "quickstartCwd": "/Users/lynch/.openclaw/tools/TraeClaw"
         }
+      },
+      "minimax": {
+        "enabled": true
+      },
+      "browser": {
+        "enabled": true
       }
     }
   }

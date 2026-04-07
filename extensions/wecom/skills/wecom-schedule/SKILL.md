@@ -49,6 +49,8 @@ metadata:
 
 只需传入需修改的字段，未传字段保持不变。
 
+> ⚠️ **重要**：如果要把全天日程变成普通日程并修改时间，则一定要把 `is_whole_day` 设置为 `0`，否则日程仍会保持全天状态。
+
 使用 `wecom_mcp` tool 调用 `wecom_mcp call schedule update_schedule '{"schedule": {"schedule_id": "SCHEDULE_ID", "summary": "更新后的标题"}}'`
 
 参见 [API 详情](references/api-update-schedule.md)。
