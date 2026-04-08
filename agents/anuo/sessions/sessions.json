@@ -1,7 +1,7 @@
 {
   "agent:anuo:main": {
     "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
-    "updatedAt": 1775562174548,
+    "updatedAt": 1775661855056,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -595,7 +595,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775562136113,
+      "generatedAt": 1775661819038,
       "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
       "sessionKey": "agent:anuo:main",
       "provider": "custom-customb2",
@@ -1274,17 +1274,17 @@
       }
     },
     "totalTokensFresh": true,
-    "totalTokens": 106434,
+    "totalTokens": 117538,
     "lastTo": "user:ou_b83724522290b2449d9ecb7166431801",
-    "inputTokens": 2222,
-    "outputTokens": 1181,
-    "cacheRead": 106016,
+    "inputTokens": 112449,
+    "outputTokens": 426,
+    "cacheRead": 117406,
     "cacheWrite": 0,
     "status": "done",
-    "startedAt": 1775562136152,
+    "startedAt": 1775661819070,
     "estimatedCostUsd": 0,
-    "endedAt": 1775562174379,
-    "runtimeMs": 38227
+    "endedAt": 1775661854996,
+    "runtimeMs": 35926
   },
   "agent:anuo:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "c3bec303-09f2-415c-a401-34c6fc861bfc",
