@@ -1,7 +1,7 @@
 {
   "agent:chairong:main": {
     "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
-    "updatedAt": 1775653403025,
+    "updatedAt": 1775742011413,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -13,9 +13,9 @@
     "lastChannel": "feishu",
     "lastAccountId": "chairong",
     "origin": {
-      "label": "用户545942",
-      "provider": "feishu",
-      "surface": "feishu",
+      "label": "ClawX",
+      "provider": "webchat",
+      "surface": "webchat",
       "chatType": "direct",
       "from": "feishu:ou_6410d774496f03f962a689ab603b357b",
       "to": "user:ou_6410d774496f03f962a689ab603b357b",
@@ -416,7 +416,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1775653166286,
+      "generatedAt": 1775741432668,
       "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
       "sessionKey": "agent:chairong:main",
       "provider": "custom-customb2",
@@ -436,9 +436,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 47307,
+        "chars": 47916,
         "projectContextChars": 11552,
-        "nonProjectContextChars": 35755
+        "nonProjectContextChars": 36364
       },
       "injectedWorkspaceFiles": [
         {
@@ -648,8 +648,8 @@
         ]
       },
       "tools": {
-        "listChars": 11230,
-        "schemaChars": 52340,
+        "listChars": 11690,
+        "schemaChars": 55116,
         "entries": [
           {
             "name": "read",
@@ -688,8 +688,20 @@
             "propertiesCount": 18
           },
           {
+            "name": "nodes",
+            "summaryChars": 118,
+            "schemaChars": 1589,
+            "propertiesCount": 32
+          },
+          {
+            "name": "cron",
+            "summaryChars": 3570,
+            "schemaChars": 690,
+            "propertiesCount": 13
+          },
+          {
             "name": "message",
-            "summaryChars": 129,
+            "summaryChars": 123,
             "schemaChars": 5547,
             "propertiesCount": 104
           },
@@ -704,6 +716,12 @@
             "summaryChars": 435,
             "schemaChars": 1195,
             "propertiesCount": 10
+          },
+          {
+            "name": "gateway",
+            "summaryChars": 464,
+            "schemaChars": 497,
+            "propertiesCount": 12
           },
           {
             "name": "agents_list",
@@ -1043,18 +1061,18 @@
     "memoryFlushCompactionCount": 13,
     "authProfileOverride": "custom-customb2:default",
     "authProfileOverrideSource": "auto",
-    "authProfileOverrideCompactionCount": 12,
+    "authProfileOverrideCompactionCount": 13,
     "lastTo": "user:ou_6410d774496f03f962a689ab603b357b",
     "status": "done",
-    "startedAt": 1775653166379,
+    "startedAt": 1775741432849,
     "estimatedCostUsd": 0,
-    "totalTokens": 87790,
-    "endedAt": 1775653402857,
-    "runtimeMs": 236478,
-    "inputTokens": 87517,
-    "outputTokens": 8900,
-    "cacheRead": 87529,
-    "cacheWrite": 0
+    "totalTokens": 98832,
+    "inputTokens": 182074,
+    "outputTokens": 7585,
+    "cacheRead": 98344,
+    "cacheWrite": 0,
+    "endedAt": 1775742011254,
+    "runtimeMs": 578405
   },
   "agent:chairong:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "d91a5182-335e-426a-8fdf-36fa399fd52b",
@@ -1408,8 +1426,8 @@
     "totalTokensFresh": true
   },
   "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34": {
-    "sessionId": "a5e21820-a063-4529-bdd1-8617677956fa",
-    "updatedAt": 1775606400025,
+    "sessionId": "f3f3df78-20d6-43db-b732-b69218426363",
+    "updatedAt": 1775692800946,
     "systemSent": true,
     "label": "Cron: 盘前选股+生成plan+上传",
     "skillsSnapshot": {
@@ -2745,11 +2763,14 @@
     "totalTokensFresh": true,
     "cacheRead": 1912470,
     "cacheWrite": 0,
-    "estimatedCostUsd": 0
+    "estimatedCostUsd": 0,
+    "status": "running",
+    "startedAt": 1775692800941,
+    "abortedLastRun": false
   },
   "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f": {
-    "sessionId": "b8732b6b-3f59-41f5-9bb9-ab0c0ddfed44",
-    "updatedAt": 1775644200021,
+    "sessionId": "3b2ee8c6-aaa6-4e3d-80d5-215c630f8a43",
+    "updatedAt": 1775730845833,
     "systemSent": true,
     "label": "Cron: 盘后复盘+邮件报告",
     "skillsSnapshot": {
@@ -4087,7 +4108,9 @@
     "cacheWrite": 0,
     "sessionFile": "/Users/lynch/.openclaw/agents/chairong/sessions/142e8da7-3c59-4f39-8713-01ffdd3124ab.jsonl",
     "abortedLastRun": false,
-    "estimatedCostUsd": 0
+    "estimatedCostUsd": 0,
+    "status": "running",
+    "startedAt": 1775730845829
   },
   "agent:chairong:cron:c02434b6-27ef-4fdc-aa8d-3dce08ab482a": {
     "sessionId": "ac3ffd94-f83b-4fa8-877e-18e40c855e92",
@@ -5380,9 +5403,9 @@
     "cacheRead": 2710141,
     "cacheWrite": 0
   },
-  "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34:run:a5e21820-a063-4529-bdd1-8617677956fa": {
-    "sessionId": "a5e21820-a063-4529-bdd1-8617677956fa",
-    "updatedAt": 1775606400025,
+  "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34:run:f3f3df78-20d6-43db-b732-b69218426363": {
+    "sessionId": "f3f3df78-20d6-43db-b732-b69218426363",
+    "updatedAt": 1775692800027,
     "systemSent": true,
     "label": "Cron: 盘前选股+生成plan+上传",
     "skillsSnapshot": {
@@ -6720,9 +6743,9 @@
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
-  "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f:run:b8732b6b-3f59-41f5-9bb9-ab0c0ddfed44": {
-    "sessionId": "b8732b6b-3f59-41f5-9bb9-ab0c0ddfed44",
-    "updatedAt": 1775644200021,
+  "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f:run:3b2ee8c6-aaa6-4e3d-80d5-215c630f8a43": {
+    "sessionId": "3b2ee8c6-aaa6-4e3d-80d5-215c630f8a43",
+    "updatedAt": 1775730844876,
     "systemSent": true,
     "label": "Cron: 盘后复盘+邮件报告",
     "skillsSnapshot": {
