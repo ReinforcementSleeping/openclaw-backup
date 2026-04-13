@@ -7,20 +7,7 @@
       "models": [
         {
           "id": "MiniMax-M2.5",
-          "name": "MiniMax-M2.5",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "anthropic-messages"
+          "name": "MiniMax-M2.5"
         }
       ],
       "apiKey": "MINIMAX_CN_API_KEY"
@@ -32,20 +19,7 @@
       "models": [
         {
           "id": "minimax-portal/MiniMax-M2.5",
-          "name": "minimax-portal/MiniMax-M2.5",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "anthropic-messages"
+          "name": "minimax-portal/MiniMax-M2.5"
         }
       ]
     },
@@ -55,20 +29,7 @@
       "models": [
         {
           "id": "glm-5-turbo",
-          "name": "glm-5-turbo",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
+          "name": "glm-5-turbo"
         }
       ],
       "apiKey": "eb80724b52cb4eaab2de5469e666b366.idiS1EGFUOuJnbad"
@@ -79,20 +40,7 @@
       "models": [
         {
           "id": "glm-5-turbo",
-          "name": "glm-5-turbo",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "openai-completions"
+          "name": "glm-5-turbo"
         }
       ],
       "apiKey": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
