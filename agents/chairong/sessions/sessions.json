@@ -1,7 +1,7 @@
 {
   "agent:chairong:main": {
     "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
-    "updatedAt": 1776150669243,
+    "updatedAt": 1776238760943,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -416,7 +416,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776150607044,
+      "generatedAt": 1776238564296,
       "sessionId": "82ed8b29-1f0d-4b58-ae49-edc6817b0dcf",
       "sessionKey": "agent:chairong:main",
       "provider": "custom-customb2",
@@ -1064,16 +1064,16 @@
     "authProfileOverrideCompactionCount": 13,
     "lastTo": "user:ou_6410d774496f03f962a689ab603b357b",
     "status": "done",
-    "startedAt": 1776150607164,
+    "startedAt": 1776238564411,
     "estimatedCostUsd": 0,
-    "totalTokens": 79479,
-    "inputTokens": 28892,
-    "outputTokens": 2052,
-    "cacheRead": 77992,
+    "totalTokens": 86444,
+    "inputTokens": 84687,
+    "outputTokens": 2338,
+    "cacheRead": 86042,
     "cacheWrite": 0,
     "channel": "feishu",
-    "endedAt": 1776150669151,
-    "runtimeMs": 61987
+    "endedAt": 1776238760742,
+    "runtimeMs": 196331
   },
   "agent:chairong:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "d91a5182-335e-426a-8fdf-36fa399fd52b",
@@ -1427,8 +1427,8 @@
     "totalTokensFresh": true
   },
   "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34": {
-    "sessionId": "18687359-876e-49bc-ac1d-8adbe279c8fe",
-    "updatedAt": 1776124800011,
+    "sessionId": "8ed1c632-8cf3-4e6b-ae45-21316bba6209",
+    "updatedAt": 1776211200023,
     "systemSent": true,
     "label": "Cron: 盘前选股+生成plan+上传",
     "skillsSnapshot": {
@@ -2057,8 +2057,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776124800872,
-      "sessionId": "18687359-876e-49bc-ac1d-8adbe279c8fe",
+      "generatedAt": 1776211200912,
+      "sessionId": "8ed1c632-8cf3-4e6b-ae45-21316bba6209",
       "sessionKey": "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -2758,11 +2758,11 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 41115,
-    "outputTokens": 5174,
-    "totalTokens": 51075,
+    "inputTokens": 43558,
+    "outputTokens": 4169,
+    "totalTokens": 50941,
     "totalTokensFresh": true,
-    "cacheRead": 2144157,
+    "cacheRead": 1968167,
     "cacheWrite": 0,
     "estimatedCostUsd": 0,
     "status": "running",
@@ -2770,8 +2770,8 @@
     "abortedLastRun": false
   },
   "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f": {
-    "sessionId": "216ac48f-0fd3-4743-9a1b-5bf576b2bf96",
-    "updatedAt": 1776162600915,
+    "sessionId": "992cd67a-448e-46b4-90f9-6a1181b9a65b",
+    "updatedAt": 1776249000946,
     "systemSent": true,
     "label": "Cron: 盘后复盘+邮件报告",
     "skillsSnapshot": {
@@ -4111,7 +4111,7 @@
     "abortedLastRun": false,
     "estimatedCostUsd": 0,
     "status": "running",
-    "startedAt": 1776162600909
+    "startedAt": 1776249000939
   },
   "agent:chairong:cron:c02434b6-27ef-4fdc-aa8d-3dce08ab482a": {
     "sessionId": "ac3ffd94-f83b-4fa8-877e-18e40c855e92",
@@ -5405,8 +5405,8 @@
     "cacheWrite": 0
   },
   "agent:chairong:cron:1e5d75bc-4013-42c7-b364-f8b53112db98": {
-    "sessionId": "6a8a0246-89b6-4559-b3a6-67595960e695",
-    "updatedAt": 1776125105735,
+    "sessionId": "92a3a8ce-269b-48fc-95a3-0c0473c49f7f",
+    "updatedAt": 1776211690291,
     "systemSent": true,
     "label": "Cron: 盘前-Pipeline生成plan",
     "skillsSnapshot": {
@@ -6639,8 +6639,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776125106612,
-      "sessionId": "6a8a0246-89b6-4559-b3a6-67595960e695",
+      "generatedAt": 1776211691151,
+      "sessionId": "92a3a8ce-269b-48fc-95a3-0c0473c49f7f",
       "sessionKey": "agent:chairong:cron:1e5d75bc-4013-42c7-b364-f8b53112db98",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -7388,11 +7388,11 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 25731,
-    "outputTokens": 7883,
-    "totalTokens": 65205,
+    "inputTokens": 24689,
+    "outputTokens": 3060,
+    "totalTokens": 58369,
     "totalTokensFresh": true,
-    "cacheRead": 2168640,
+    "cacheRead": 881368,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
@@ -11282,9 +11282,9 @@
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
-  "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34:run:18687359-876e-49bc-ac1d-8adbe279c8fe": {
-    "sessionId": "18687359-876e-49bc-ac1d-8adbe279c8fe",
-    "updatedAt": 1776124800011,
+  "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34:run:8ed1c632-8cf3-4e6b-ae45-21316bba6209": {
+    "sessionId": "8ed1c632-8cf3-4e6b-ae45-21316bba6209",
+    "updatedAt": 1776211200023,
     "systemSent": true,
     "label": "Cron: 盘前选股+生成plan+上传",
     "skillsSnapshot": {
@@ -11913,8 +11913,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776124800872,
-      "sessionId": "18687359-876e-49bc-ac1d-8adbe279c8fe",
+      "generatedAt": 1776211200912,
+      "sessionId": "8ed1c632-8cf3-4e6b-ae45-21316bba6209",
       "sessionKey": "agent:chairong:cron:da4546e3-8bdd-4291-b88f-472a4b5d4b34",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -12614,20 +12614,20 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 41115,
-    "outputTokens": 5174,
-    "totalTokens": 51075,
+    "inputTokens": 43558,
+    "outputTokens": 4169,
+    "totalTokens": 50941,
     "totalTokensFresh": true,
-    "cacheRead": 2144157,
+    "cacheRead": 1968167,
     "cacheWrite": 0,
     "estimatedCostUsd": 0,
     "status": "running",
     "startedAt": 1776038400916,
     "abortedLastRun": false
   },
-  "agent:chairong:cron:1e5d75bc-4013-42c7-b364-f8b53112db98:run:6a8a0246-89b6-4559-b3a6-67595960e695": {
-    "sessionId": "6a8a0246-89b6-4559-b3a6-67595960e695",
-    "updatedAt": 1776125105735,
+  "agent:chairong:cron:1e5d75bc-4013-42c7-b364-f8b53112db98:run:92a3a8ce-269b-48fc-95a3-0c0473c49f7f": {
+    "sessionId": "92a3a8ce-269b-48fc-95a3-0c0473c49f7f",
+    "updatedAt": 1776211690291,
     "systemSent": true,
     "label": "Cron: 盘前-Pipeline生成plan",
     "skillsSnapshot": {
@@ -13860,8 +13860,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776125106612,
-      "sessionId": "6a8a0246-89b6-4559-b3a6-67595960e695",
+      "generatedAt": 1776211691151,
+      "sessionId": "92a3a8ce-269b-48fc-95a3-0c0473c49f7f",
       "sessionKey": "agent:chairong:cron:1e5d75bc-4013-42c7-b364-f8b53112db98",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -14609,17 +14609,17 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 25731,
-    "outputTokens": 7883,
-    "totalTokens": 65205,
+    "inputTokens": 24689,
+    "outputTokens": 3060,
+    "totalTokens": 58369,
     "totalTokensFresh": true,
-    "cacheRead": 2168640,
+    "cacheRead": 881368,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
-  "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f:run:216ac48f-0fd3-4743-9a1b-5bf576b2bf96": {
-    "sessionId": "216ac48f-0fd3-4743-9a1b-5bf576b2bf96",
-    "updatedAt": 1776162600013,
+  "agent:chairong:cron:321d856c-eb47-44d0-a1de-24fd64d31f4f:run:992cd67a-448e-46b4-90f9-6a1181b9a65b": {
+    "sessionId": "992cd67a-448e-46b4-90f9-6a1181b9a65b",
+    "updatedAt": 1776249000023,
     "systemSent": true,
     "label": "Cron: 盘后复盘+邮件报告",
     "skillsSnapshot": {
@@ -15959,6 +15959,6 @@
     "abortedLastRun": false,
     "estimatedCostUsd": 0,
     "status": "running",
-    "startedAt": 1775817000933
+    "startedAt": 1776162600909
   }
 }

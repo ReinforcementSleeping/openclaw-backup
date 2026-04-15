@@ -373,7 +373,7 @@
   },
   "agent:main:main": {
     "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
-    "updatedAt": 1776075104081,
+    "updatedAt": 1776268536111,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -799,7 +799,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776075038989,
+      "generatedAt": 1776268442831,
       "sessionId": "8fb093bd-ae73-4a92-aa83-4868c6ccaa30",
       "sessionKey": "agent:main:main",
       "provider": "custom-customb2",
@@ -819,8 +819,8 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 54895,
-        "projectContextChars": 18720,
+        "chars": 55411,
+        "projectContextChars": 19236,
         "nonProjectContextChars": 36175
       },
       "injectedWorkspaceFiles": [
@@ -884,8 +884,8 @@
           "name": "MEMORY.md",
           "path": "/Users/lynch/.openclaw/workspace/MEMORY.md",
           "missing": false,
-          "rawChars": 114,
-          "injectedChars": 114,
+          "rawChars": 630,
+          "injectedChars": 630,
           "truncated": false
         }
       ],
@@ -1431,17 +1431,17 @@
     "authProfileOverride": "custom-customb2:default",
     "authProfileOverrideSource": "auto",
     "authProfileOverrideCompactionCount": 8,
-    "totalTokens": 127558,
-    "inputTokens": 177371,
-    "outputTokens": 1636,
-    "cacheRead": 47641,
+    "totalTokens": 94298,
+    "inputTokens": 89209,
+    "outputTokens": 1938,
+    "cacheRead": 91506,
     "cacheWrite": 0,
     "status": "done",
-    "startedAt": 1776075039107,
+    "startedAt": 1776268442943,
     "estimatedCostUsd": 0,
     "lastTo": "user:ou_24546ad77a9d601f17fed19c98683117",
-    "endedAt": 1776075103994,
-    "runtimeMs": 64887
+    "endedAt": 1776268536005,
+    "runtimeMs": 93062
   },
   "agent:main:session-1772423761783": {
     "sessionId": "ed8ed5a7-f94a-49f4-a624-1e395cf465aa",
