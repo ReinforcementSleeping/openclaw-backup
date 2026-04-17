@@ -23,28 +23,6 @@
   },
   "models": {
     "providers": {
-      "minimax-portal": {
-        "baseUrl": "https://api.minimaxi.com/anthropic",
-        "apiKey": "MINIMAX_CN_API_KEY",
-        "api": "anthropic-messages",
-        "models": [
-          {
-            "id": "MiniMax-M2.5",
-            "name": "MiniMax-M2.5"
-          }
-        ]
-      },
-      "minimax-portal-cn": {
-        "baseUrl": "https://api.minimaxi.com/anthropic",
-        "apiKey": "MINIMAX_CN_API_KEY",
-        "api": "anthropic-messages",
-        "models": [
-          {
-            "id": "minimax-portal/MiniMax-M2.5",
-            "name": "minimax-portal/MiniMax-M2.5"
-          }
-        ]
-      },
       "custom-customb2": {
         "baseUrl": "https://api.z.ai/api/coding/paas/v4",
         "api": "openai-completions",
@@ -60,8 +38,8 @@
         "api": "openai-completions",
         "models": [
           {
-            "id": "glm-5-turbo",
-            "name": "glm-5-turbo"
+            "id": "glm-5.1",
+            "name": "glm-5.1"
           }
         ]
       }
@@ -347,7 +325,7 @@
     ],
     "entries": {
       "minimax-portal-auth": {
-        "enabled": true
+        "enabled": false
       },
       "feishu": {
         "enabled": false

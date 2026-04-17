@@ -1,11 +1,6 @@
 {
   "version": 1,
   "profiles": {
-    "minimax-portal:default": {
-      "type": "api_key",
-      "provider": "minimax-portal",
-      "key": "sk-cp-jAyF3dAqWcIVjrHRYjHayut80Rwh0G5SkJOwa8xkNM75VpneJP_dqInH8mRDUOetHV2P33SGptoHzCQ65RxcznIpYalYyGT522xW3OuDokAmesy-rrGyt18"
-    },
     "custom-customb2:default": {
       "type": "api_key",
       "provider": "custom-customb2",
@@ -14,13 +9,10 @@
     "custom-custom8d:default": {
       "type": "api_key",
       "provider": "custom-custom8d",
-      "key": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
+      "key": "e63254801c584069904dacf909f851c5.TgI2vYO2STbTUOW5"
     }
   },
   "order": {
-    "minimax-portal": [
-      "minimax-portal:default"
-    ],
     "custom-customb2": [
       "custom-customb2:default"
     ],
@@ -29,7 +21,6 @@
     ]
   },
   "lastGood": {
-    "minimax-portal": "minimax-portal:default",
     "custom-customb2": "custom-customb2:default",
     "custom-custom8d": "custom-custom8d:default"
   },
@@ -40,7 +31,7 @@
       "lastFailureAt": 1772609137557
     },
     "custom-customb2:default": {
-      "lastUsed": 1776340866720,
+      "lastUsed": 1776429278181,
       "errorCount": 0
     },
     "custom-custom8d:default": {

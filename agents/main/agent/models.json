@@ -1,54 +1,5 @@
 {
   "providers": {
-    "minimax-portal": {
-      "baseUrl": "https://api.minimaxi.com/anthropic",
-      "api": "anthropic-messages",
-      "authHeader": true,
-      "models": [
-        {
-          "id": "MiniMax-M2.5",
-          "name": "MiniMax-M2.5",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "anthropic-messages"
-        }
-      ],
-      "apiKey": "MINIMAX_CN_API_KEY"
-    },
-    "minimax-portal-cn": {
-      "baseUrl": "https://api.minimaxi.com/anthropic",
-      "apiKey": "MINIMAX_CN_API_KEY",
-      "api": "anthropic-messages",
-      "models": [
-        {
-          "id": "minimax-portal/MiniMax-M2.5",
-          "name": "minimax-portal/MiniMax-M2.5",
-          "reasoning": false,
-          "input": [
-            "text"
-          ],
-          "cost": {
-            "input": 0,
-            "output": 0,
-            "cacheRead": 0,
-            "cacheWrite": 0
-          },
-          "contextWindow": 200000,
-          "maxTokens": 8192,
-          "api": "anthropic-messages"
-        }
-      ]
-    },
     "custom-customb2": {
       "baseUrl": "https://api.z.ai/api/coding/paas/v4",
       "api": "openai-completions",
@@ -78,8 +29,8 @@
       "api": "openai-completions",
       "models": [
         {
-          "id": "glm-5-turbo",
-          "name": "glm-5-turbo",
+          "id": "glm-5.1",
+          "name": "glm-5.1",
           "reasoning": false,
           "input": [
             "text"
@@ -95,7 +46,7 @@
           "api": "openai-completions"
         }
       ],
-      "apiKey": "0afb75ecba424bafb3e376a1bf870597.xdGeWrQwhShSuihT"
+      "apiKey": "e63254801c584069904dacf909f851c5.TgI2vYO2STbTUOW5"
     }
   }
 }
