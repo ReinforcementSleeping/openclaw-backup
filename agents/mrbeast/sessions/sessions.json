@@ -1,12 +1,9 @@
 {
   "agent:mrbeast:main": {
     "sessionId": "e5b7bea8-96e2-42ba-b054-47ffb09df395",
-    "updatedAt": 1776419474454,
+    "updatedAt": 1776527137881,
     "systemSent": true,
     "abortedLastRun": false,
-    "authProfileOverride": "custom-customb2:default",
-    "authProfileOverrideSource": "auto",
-    "authProfileOverrideCompactionCount": 0,
     "chatType": "direct",
     "deliveryContext": {
       "channel": "feishu",
@@ -1194,14 +1191,14 @@
       ],
       "version": 0
     },
-    "status": "done",
-    "startedAt": 1776419461537,
+    "status": "running",
+    "startedAt": 1776527077840,
     "modelProvider": "custom-customb2",
     "model": "glm-5-turbo",
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776419461516,
+      "generatedAt": 1776527077816,
       "sessionId": "e5b7bea8-96e2-42ba-b054-47ffb09df395",
       "sessionKey": "agent:mrbeast:main",
       "provider": "custom-customb2",
@@ -1947,17 +1944,17 @@
         ]
       }
     },
-    "inputTokens": 15485,
-    "outputTokens": 372,
-    "cacheRead": 31199,
+    "inputTokens": 468,
+    "outputTokens": 496,
+    "cacheRead": 46951,
     "cacheWrite": 0,
     "estimatedCostUsd": 0,
-    "totalTokensFresh": true,
-    "totalTokens": 46684,
+    "totalTokensFresh": false,
     "lastTo": "user:ou_09ed86936115c48dd75600b9823a969d",
     "lastAccountId": "mrbeast",
-    "endedAt": 1776419474432,
-    "runtimeMs": 12895
+    "authProfileOverride": "custom-customb2:default",
+    "authProfileOverrideSource": "auto",
+    "authProfileOverrideCompactionCount": 0
   },
   "agent:mrbeast:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "6c3ca7a0-1026-4fd4-b543-c2f71bd45bd6",

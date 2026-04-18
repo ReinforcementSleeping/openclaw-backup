@@ -1,7 +1,7 @@
 {
   "agent:anuo:main": {
     "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
-    "updatedAt": 1776386140100,
+    "updatedAt": 1776499636443,
     "systemSent": true,
     "abortedLastRun": false,
     "chatType": "direct",
@@ -13,7 +13,7 @@
     "lastChannel": "feishu",
     "lastAccountId": "anuo",
     "origin": {
-      "label": "用户545942",
+      "label": "feishu:ou_b83724522290b2449d9ecb7166431801",
       "provider": "feishu",
       "surface": "feishu",
       "chatType": "direct",
@@ -595,7 +595,7 @@
     "contextTokens": 200000,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776386122172,
+      "generatedAt": 1776499622568,
       "sessionId": "0139686e-bbb1-4d89-8ef1-936bb36dd277",
       "sessionKey": "agent:anuo:main",
       "provider": "custom-customb2",
@@ -615,9 +615,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 57862,
+        "chars": 57785,
         "projectContextChars": 14455,
-        "nonProjectContextChars": 43407
+        "nonProjectContextChars": 43330
       },
       "injectedWorkspaceFiles": [
         {
@@ -883,8 +883,8 @@
         ]
       },
       "tools": {
-        "listChars": 11230,
-        "schemaChars": 52340,
+        "listChars": 11153,
+        "schemaChars": 51145,
         "entries": [
           {
             "name": "read",
@@ -933,12 +933,6 @@
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
-          },
-          {
-            "name": "image_generate",
-            "summaryChars": 435,
-            "schemaChars": 1195,
-            "propertiesCount": 10
           },
           {
             "name": "agents_list",
@@ -1274,17 +1268,19 @@
       }
     },
     "totalTokensFresh": true,
-    "totalTokens": 102736,
+    "totalTokens": 118269,
     "lastTo": "user:ou_b83724522290b2449d9ecb7166431801",
-    "inputTokens": 73087,
-    "outputTokens": 263,
-    "cacheRead": 102611,
+    "inputTokens": 847,
+    "outputTokens": 481,
+    "cacheRead": 118147,
     "cacheWrite": 0,
     "status": "done",
-    "startedAt": 1776386122203,
+    "startedAt": 1776499622603,
     "estimatedCostUsd": 0,
-    "endedAt": 1776386139887,
-    "runtimeMs": 17684
+    "memoryFlushAt": 1776484961620,
+    "memoryFlushCompactionCount": 1,
+    "endedAt": 1776499636213,
+    "runtimeMs": 13610
   },
   "agent:anuo:feishu:group:oc_cb25f688202b98fbb8a1d0682cf1246d": {
     "sessionId": "c3bec303-09f2-415c-a401-34c6fc861bfc",
@@ -1638,8 +1634,8 @@
     "totalTokensFresh": true
   },
   "agent:anuo:cron:c9a6a5f6-ba9e-481f-a38d-4e70fd2cd39f": {
-    "sessionId": "1d59a8cd-fde2-437a-91af-849e44bc7efe",
-    "updatedAt": 1776427227796,
+    "sessionId": "9c2dd11d-9411-427e-b95f-f4fdf87c5cdf",
+    "updatedAt": 1776513600016,
     "systemSent": true,
     "label": "Cron: lynch-pushup-reminder",
     "skillsSnapshot": {
@@ -2836,8 +2832,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776427228694,
-      "sessionId": "1d59a8cd-fde2-437a-91af-849e44bc7efe",
+      "generatedAt": 1776513600889,
+      "sessionId": "9c2dd11d-9411-427e-b95f-f4fdf87c5cdf",
       "sessionKey": "agent:anuo:cron:c9a6a5f6-ba9e-481f-a38d-4e70fd2cd39f",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -3571,11 +3567,11 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 35328,
-    "outputTokens": 408,
-    "totalTokens": 39160,
+    "inputTokens": 34835,
+    "outputTokens": 721,
+    "totalTokens": 38905,
     "totalTokensFresh": true,
-    "cacheRead": 42606,
+    "cacheRead": 42352,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
@@ -3602,8 +3598,8 @@
     "sessionFile": "/Users/lynch/.openclaw/agents/anuo/sessions/9a4f0281-7461-4389-9f83-28f4853516c9.jsonl"
   },
   "agent:anuo:cron:ac174a8d-4d81-4a88-acb3-571153d19449": {
-    "sessionId": "28c54eda-f8e2-469f-ac8c-b23b6e4274a2",
-    "updatedAt": 1776380400066,
+    "sessionId": "b32c98df-ad21-4a8e-83ab-a898610a12cf",
+    "updatedAt": 1776466800021,
     "systemSent": true,
     "label": "Cron: lynch-daily-plan",
     "skillsSnapshot": {
@@ -4800,8 +4796,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776380400968,
-      "sessionId": "28c54eda-f8e2-469f-ac8c-b23b6e4274a2",
+      "generatedAt": 1776466800878,
+      "sessionId": "b32c98df-ad21-4a8e-83ab-a898610a12cf",
       "sessionKey": "agent:anuo:cron:ac174a8d-4d81-4a88-acb3-571153d19449",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -4820,9 +4816,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 38344,
+        "chars": 38267,
         "projectContextChars": 13116,
-        "nonProjectContextChars": 25228
+        "nonProjectContextChars": 25151
       },
       "injectedWorkspaceFiles": [
         {
@@ -5132,8 +5128,8 @@
         ]
       },
       "tools": {
-        "listChars": 11690,
-        "schemaChars": 55116,
+        "listChars": 11613,
+        "schemaChars": 53921,
         "entries": [
           {
             "name": "read",
@@ -5194,12 +5190,6 @@
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
-          },
-          {
-            "name": "image_generate",
-            "summaryChars": 435,
-            "schemaChars": 1195,
-            "propertiesCount": 10
           },
           {
             "name": "gateway",
@@ -5541,17 +5531,17 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 34514,
-    "outputTokens": 2064,
-    "totalTokens": 43142,
+    "inputTokens": 37797,
+    "outputTokens": 2761,
+    "totalTokens": 45284,
     "totalTokensFresh": true,
-    "cacheRead": 251453,
+    "cacheRead": 662595,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
-  "agent:anuo:cron:ac174a8d-4d81-4a88-acb3-571153d19449:run:28c54eda-f8e2-469f-ac8c-b23b6e4274a2": {
-    "sessionId": "28c54eda-f8e2-469f-ac8c-b23b6e4274a2",
-    "updatedAt": 1776380400066,
+  "agent:anuo:cron:ac174a8d-4d81-4a88-acb3-571153d19449:run:b32c98df-ad21-4a8e-83ab-a898610a12cf": {
+    "sessionId": "b32c98df-ad21-4a8e-83ab-a898610a12cf",
+    "updatedAt": 1776466800021,
     "systemSent": true,
     "label": "Cron: lynch-daily-plan",
     "skillsSnapshot": {
@@ -6748,8 +6738,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776380400968,
-      "sessionId": "28c54eda-f8e2-469f-ac8c-b23b6e4274a2",
+      "generatedAt": 1776466800878,
+      "sessionId": "b32c98df-ad21-4a8e-83ab-a898610a12cf",
       "sessionKey": "agent:anuo:cron:ac174a8d-4d81-4a88-acb3-571153d19449",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -6768,9 +6758,9 @@
         "sandboxed": false
       },
       "systemPrompt": {
-        "chars": 38344,
+        "chars": 38267,
         "projectContextChars": 13116,
-        "nonProjectContextChars": 25228
+        "nonProjectContextChars": 25151
       },
       "injectedWorkspaceFiles": [
         {
@@ -7080,8 +7070,8 @@
         ]
       },
       "tools": {
-        "listChars": 11690,
-        "schemaChars": 55116,
+        "listChars": 11613,
+        "schemaChars": 53921,
         "entries": [
           {
             "name": "read",
@@ -7142,12 +7132,6 @@
             "summaryChars": 152,
             "schemaChars": 223,
             "propertiesCount": 2
-          },
-          {
-            "name": "image_generate",
-            "summaryChars": 435,
-            "schemaChars": 1195,
-            "propertiesCount": 10
           },
           {
             "name": "gateway",
@@ -7489,17 +7473,17 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 34514,
-    "outputTokens": 2064,
-    "totalTokens": 43142,
+    "inputTokens": 37797,
+    "outputTokens": 2761,
+    "totalTokens": 45284,
     "totalTokensFresh": true,
-    "cacheRead": 251453,
+    "cacheRead": 662595,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   },
-  "agent:anuo:cron:c9a6a5f6-ba9e-481f-a38d-4e70fd2cd39f:run:1d59a8cd-fde2-437a-91af-849e44bc7efe": {
-    "sessionId": "1d59a8cd-fde2-437a-91af-849e44bc7efe",
-    "updatedAt": 1776427227796,
+  "agent:anuo:cron:c9a6a5f6-ba9e-481f-a38d-4e70fd2cd39f:run:9c2dd11d-9411-427e-b95f-f4fdf87c5cdf": {
+    "sessionId": "9c2dd11d-9411-427e-b95f-f4fdf87c5cdf",
+    "updatedAt": 1776513600016,
     "systemSent": true,
     "label": "Cron: lynch-pushup-reminder",
     "skillsSnapshot": {
@@ -8696,8 +8680,8 @@
     "authProfileOverrideCompactionCount": 0,
     "systemPromptReport": {
       "source": "run",
-      "generatedAt": 1776427228694,
-      "sessionId": "1d59a8cd-fde2-437a-91af-849e44bc7efe",
+      "generatedAt": 1776513600889,
+      "sessionId": "9c2dd11d-9411-427e-b95f-f4fdf87c5cdf",
       "sessionKey": "agent:anuo:cron:c9a6a5f6-ba9e-481f-a38d-4e70fd2cd39f",
       "provider": "custom-customb2",
       "model": "glm-5-turbo",
@@ -9431,11 +9415,11 @@
       }
     },
     "contextTokens": 200000,
-    "inputTokens": 35328,
-    "outputTokens": 408,
-    "totalTokens": 39160,
+    "inputTokens": 34835,
+    "outputTokens": 721,
+    "totalTokens": 38905,
     "totalTokensFresh": true,
-    "cacheRead": 42606,
+    "cacheRead": 42352,
     "cacheWrite": 0,
     "estimatedCostUsd": 0
   }
